@@ -58,24 +58,47 @@
     $("#sbTime").textContent = fmtTime(d);
     $("#lockTime").textContent = fmtTime(d);
     $("#lockDate").textContent = fmtDate(d);
-    // calendar icon + mini icon + widget
     document.querySelectorAll(".cal-live-day").forEach((el) => (el.textContent = d.getDate()));
     document.querySelectorAll(".cal-live-dow").forEach((el) => {
       el.textContent = d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
     });
     const wd = $("#wgCalDow"); if (wd) wd.textContent = d.toLocaleDateString("en-US", { weekday: "long" }).toUpperCase();
     const wday = $("#wgCalDay"); if (wday) wday.textContent = d.getDate();
-    // countdowns
     const days = Math.ceil((DEV_DAY.setHours(0,0,0,0) - new Date(d).setHours(0,0,0,0)) / 864e5);
     const label = days > 0 ? "in " + days + "d" : days === 0 ? "today" : "Sep 29";
     const cn = $("#calCountNotif"); if (cn) cn.textContent = label;
     const cc = $("#ceCount"); if (cc) cc.textContent = days > 0 ? days + " days" : days === 0 ? "Today" : "Sep 29";
     const wp = $("#wgCalPill"); if (wp) wp.textContent = days > 0 ? days + " days away" : days === 0 ? "Today!" : "Sep 29, 2026";
+    alignGlass();
   }
+
+  /* ————— Liquid glass text: align clipped wallpaper to the real one ————— */
+  const IMG_RATIO = 1400 / 2489; // wallpaper w/h
+  function alignGlass() {
+    const scr = screen.getBoundingClientRect();
+    if (!scr.width) return;
+    const sr = scr.width / scr.height;
+    let bw, bh;
+    if (sr > IMG_RATIO) { bw = scr.width; bh = scr.width / IMG_RATIO; }
+    else { bh = scr.height; bw = scr.height * IMG_RATIO; }
+    const bx = (scr.width - bw) / 2, by = (scr.height - bh) / 2;
+    const S = 1.06; // slight refraction
+    const bw2 = bw * S, bh2 = bh * S;
+    const bx2 = bx - (bw2 - bw) / 2, by2 = by - (bh2 - bh) / 2;
+    document.querySelectorAll(".glass").forEach((el) => {
+      const r = el.getBoundingClientRect();
+      el.style.backgroundSize = `100% 100%, ${bw2}px ${bh2}px`;
+      el.style.backgroundPosition = `0 0, ${bx2 - (r.left - scr.left)}px ${by2 - (r.top - scr.top)}px`;
+    });
+  }
+  addEventListener("resize", alignGlass);
+  addEventListener("orientationchange", () => setTimeout(alignGlass, 250));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(alignGlass);
 
   /* ————— Build home pages ————— */
   const track = $("#pagesTrack");
   const dotsBox = $("#dots");
+  const home = $("#home");
   let pageEls = [];
   let pageCount = 1;
   let curPage = 0;
@@ -94,7 +117,7 @@
     a.setAttribute("aria-label", app.name);
     if (app.url === "#calendar") {
       a.href = "#";
-      a.addEventListener("click", (e) => { e.preventDefault(); if (!draggedOrJiggle()) openCalendar(); });
+      a.addEventListener("click", (e) => { e.preventDefault(); if (!suppressClick) openCalendar(); });
     } else {
       a.href = app.url;
       a.target = "_blank";
@@ -126,7 +149,7 @@
         <span class="wg-cal-meta" style="display:block">Tue, Sep 29 &middot; San Francisco, CA</span>
         <span class="wg-cal-pill" id="wgCalPill">48 days away</span>
       </span>`;
-    b.addEventListener("click", () => { if (!draggedOrJiggle()) openCalendar(); });
+    b.addEventListener("click", () => { if (!suppressClick) openCalendar(); });
     return b;
   }
 
@@ -174,19 +197,18 @@
       dotsBox.appendChild(d);
     }
 
-    // stagger delays + jiggle delays
+    // stagger delays
     let i = 0;
     document.querySelectorAll(".home .app, .home .widget").forEach((el) => {
       el.style.setProperty("--d", 0.16 + i * 0.024 + "s");
-      el.style.setProperty("--jd", (Math.random() * -0.26).toFixed(2) + "s");
       i++;
     });
   }
 
-  /* ————— Paging ————— */
+  /* ————— Paging (lazy pointer capture so taps reach the anchors) ————— */
   const pages = $("#pages");
   let pageW = () => pages.clientWidth;
-  let dragging = false, dragStartX = 0, dragBase = 0, dragDX = 0, dragT = 0, dragVX = 0, lastX = 0, lastT = 0;
+  let press = null; // {x, dx, vx, lastX, lastT, captured, base}
   let suppressClick = false;
 
   function goToPage(i) {
@@ -196,43 +218,43 @@
   }
 
   pages.addEventListener("pointerdown", (e) => {
-    if (!home.classList.contains("unlocked") || jiggle) return;
-    dragging = true;
-    suppressClick = false;
-    dragStartX = e.clientX;
-    dragBase = -curPage * pageW();
-    dragDX = 0; dragVX = 0;
-    lastX = e.clientX; lastT = performance.now();
-    track.classList.add("dragging");
-    pages.setPointerCapture(e.pointerId);
+    if (!home.classList.contains("unlocked")) return;
+    press = { x: e.clientX, dx: 0, vx: 0, lastX: e.clientX, lastT: performance.now(), captured: false, base: -curPage * pageW(), id: e.pointerId };
   });
   pages.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
-    dragDX = e.clientX - dragStartX;
+    if (!press) return;
+    const dx = e.clientX - press.x;
+    if (!press.captured) {
+      if (Math.abs(dx) < 9) return;
+      press.captured = true;
+      try { pages.setPointerCapture(press.id); } catch (_) {}
+      track.classList.add("dragging");
+    }
     const t = performance.now();
-    dragVX = (e.clientX - lastX) / Math.max(1, t - lastT);
-    lastX = e.clientX; lastT = t;
-    // rubber-band at edges
-    let x = dragBase + dragDX;
+    press.vx = (e.clientX - press.lastX) / Math.max(1, t - press.lastT);
+    press.lastX = e.clientX; press.lastT = t;
+    press.dx = dx;
+    let x = press.base + dx;
     const min = -(pageCount - 1) * pageW();
     if (x > 0) x = x * 0.35;
     if (x < min) x = min + (x - min) * 0.35;
     track.style.transform = `translateX(${x}px)`;
   });
-  function endDrag() {
-    if (!dragging) return;
-    dragging = false;
+  function endPress() {
+    if (!press) return;
+    const p = press; press = null;
+    if (!p.captured) return; // clean tap — let the native click through
     track.classList.remove("dragging");
-    if (Math.abs(dragDX) > 8) suppressClick = true;
+    suppressClick = true;
+    setTimeout(() => (suppressClick = false), 80);
     const threshold = pageW() * 0.18;
     let target = curPage;
-    if (dragDX < -threshold || dragVX < -0.45) target = curPage + 1;
-    else if (dragDX > threshold || dragVX > 0.45) target = curPage - 1;
+    if (p.dx < -threshold || p.vx < -0.45) target = curPage + 1;
+    else if (p.dx > threshold || p.vx > 0.45) target = curPage - 1;
     goToPage(target);
-    setTimeout(() => (suppressClick = false), 60);
   }
-  pages.addEventListener("pointerup", endDrag);
-  pages.addEventListener("pointercancel", endDrag);
+  pages.addEventListener("pointerup", endPress);
+  pages.addEventListener("pointercancel", endPress);
 
   // block accidental navigation after a drag
   document.addEventListener("click", (e) => {
@@ -258,47 +280,13 @@
     if (e.key === "Escape" && calOpen) closeCalendar();
   });
 
-  /* ————— Jiggle mode ————— */
-  const home = $("#home");
-  let jiggle = false;
-  let pressTimer = null;
-
-  function draggedOrJiggle() { return suppressClick || jiggle; }
-
-  home.addEventListener("pointerdown", (e) => {
-    if (!home.classList.contains("unlocked")) return;
-    clearTimeout(pressTimer);
-    if (jiggle) {
-      // tap anywhere exits jiggle
-      jiggle = false;
-      home.classList.remove("jiggle");
-      return;
-    }
-    pressTimer = setTimeout(() => {
-      jiggle = true;
-      home.classList.add("jiggle");
-      if (navigator.vibrate) navigator.vibrate(12);
-    }, 620);
-  });
-  ["pointerup", "pointercancel", "pointermove"].forEach((ev) =>
-    home.addEventListener(ev, (e) => {
-      if (ev === "pointermove" && dragging) clearTimeout(pressTimer);
-      if (ev !== "pointermove") clearTimeout(pressTimer);
-    })
-  );
-  home.addEventListener("click", (e) => {
-    if (jiggle) { e.preventDefault(); e.stopPropagation(); }
-  }, true);
-
   /* ————— Boot sequence ————— */
   const boot = $("#boot");
   const bootFill = $("#bootFill");
   let booted = false;
 
   function runBoot() {
-    screen.classList.add("locked");
     requestAnimationFrame(() => boot.classList.add("on"));
-    // two-stage progress, like the real thing
     bootFill.style.transition = "none";
     bootFill.style.width = "0%";
     const t1 = setTimeout(() => {
@@ -323,45 +311,48 @@
     boot.classList.add("done");
     const lock = $("#lock");
     lock.classList.add("show");
+    alignGlass();
     setTimeout(() => $("#notifMsg").classList.add("in"), 850);
     setTimeout(() => $("#notifCal").classList.add("in"), 2100);
     setTimeout(() => boot.remove(), 900);
   }
 
-  /* ————— Lock screen gestures ————— */
+  /* ————— Lock screen gestures (lazy capture) ————— */
   const lock = $("#lock");
   let unlocked = false;
-  let lockDrag = false, lockStartY = 0, lockDY = 0, lockVY = 0, lockLastY = 0, lockLastT = 0;
+  let lpress = null;
 
   lock.addEventListener("pointerdown", (e) => {
     if (unlocked) return;
-    lockDrag = true;
-    lockDY = 0; lockVY = 0;
-    lockStartY = e.clientY;
-    lockLastY = e.clientY; lockLastT = performance.now();
-    lock.classList.add("dragging");
-    lock.setPointerCapture(e.pointerId);
+    lpress = { y: e.clientY, dy: 0, vy: 0, lastY: e.clientY, lastT: performance.now(), captured: false, id: e.pointerId };
   });
   lock.addEventListener("pointermove", (e) => {
-    if (!lockDrag || unlocked) return;
-    lockDY = e.clientY - lockStartY;
+    if (!lpress || unlocked) return;
+    const dy = e.clientY - lpress.y;
+    if (!lpress.captured) {
+      if (Math.abs(dy) < 9) return;
+      lpress.captured = true;
+      try { lock.setPointerCapture(lpress.id); } catch (_) {}
+      lock.classList.add("dragging");
+    }
     const t = performance.now();
-    lockVY = (e.clientY - lockLastY) / Math.max(1, t - lockLastT);
-    lockLastY = e.clientY; lockLastT = t;
-    if (lockDY < 0) {
-      lock.style.transform = `translateY(${lockDY}px)`;
-      lock.style.opacity = String(Math.max(0.25, 1 + lockDY / (innerHeight * 0.6)));
+    lpress.vy = (e.clientY - lpress.lastY) / Math.max(1, t - lpress.lastT);
+    lpress.lastY = e.clientY; lpress.lastT = t;
+    lpress.dy = dy;
+    if (dy < 0) {
+      lock.style.transform = `translateY(${dy}px)`;
+      lock.style.opacity = String(Math.max(0.25, 1 + dy / (innerHeight * 0.6)));
     } else {
-      lock.style.transform = `translateY(${lockDY * 0.18}px)`;
+      lock.style.transform = `translateY(${dy * 0.18}px)`;
     }
   });
   function lockRelease() {
-    if (!lockDrag || unlocked) return;
-    lockDrag = false;
+    if (!lpress || unlocked) return;
+    const p = lpress; lpress = null;
     lock.classList.remove("dragging");
     lock.style.transform = "";
     lock.style.opacity = "";
-    if (lockDY < -70 || lockVY < -0.5) unlock();
+    if (p.captured && (p.dy < -70 || p.vy < -0.5)) unlock();
   }
   lock.addEventListener("pointerup", lockRelease);
   lock.addEventListener("pointercancel", lockRelease);
@@ -373,22 +364,13 @@
   function unlock() {
     if (unlocked) return;
     unlocked = true;
-    screen.classList.remove("locked");
     screen.classList.add("unlocked");
     lock.classList.add("away");
     home.classList.add("unlocked");
     setTimeout(() => lock.classList.add("hidden"), 700);
   }
 
-  /* ————— Flashlight + camera ————— */
-  const flash = $("#flashOverlay");
-  const torchBtn = $("#flashlight");
-  torchBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    const on = flash.classList.toggle("on");
-    torchBtn.classList.toggle("lit", on);
-    if (navigator.vibrate) navigator.vibrate(8);
-  });
+  /* ————— Lock camera button ————— */
   $("#lockCamera").addEventListener("click", (e) => {
     e.stopPropagation();
     window.open(APP_STORE + "anima-camera/id6751657083", "_blank", "noopener");
@@ -411,7 +393,6 @@
   }
   $("#calClose").addEventListener("click", closeCalendar);
 
-  // swipe down to close
   let calDrag = false, calStartY = 0;
   calApp.addEventListener("pointerdown", (e) => { calDrag = true; calStartY = e.clientY; });
   calApp.addEventListener("pointerup", (e) => {
@@ -449,21 +430,6 @@
     });
   }
 
-  /* ————— Wallpaper parallax (desktop) ————— */
-  if (!isMobile) {
-    const wp = $("#wallpaper");
-    let raf = null;
-    $("#stage").addEventListener("pointermove", (e) => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = null;
-        const nx = e.clientX / innerWidth - 0.5;
-        const ny = e.clientY / innerHeight - 0.5;
-        wp.style.translate = `${nx * -10}px ${ny * -8}px`;
-      });
-    });
-  }
-
   /* ————— Context menu suppression (immersion) ————— */
   screen.addEventListener("contextmenu", (e) => e.preventDefault());
 
@@ -471,5 +437,6 @@
   buildHome();
   tick();
   setInterval(tick, 5000);
+  setTimeout(alignGlass, 60);
   runBoot();
 })();

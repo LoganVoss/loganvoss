@@ -53,15 +53,15 @@ body {
 
 .screen {
   position: absolute;
-  left: 5.102%;
-  top: 7.2333%;
-  width: 89.7959%;
-  height: 90.5667%;
+  left: 4.898%;
+  top: 7.1333%;
+  width: 90.2041%;
+  height: 90.7667%;
   z-index: 1;
   overflow: hidden;
   background: #000;
   container-type: size;
-  border-radius: 1.2% / 0.6%;
+  border-radius: 0.35% / 0.18%;
 }
 
 /* ————— Mobile: no bezel, fullscreen ————— */
@@ -79,22 +79,18 @@ body.mobile .island { display: none; }
 /* ————— Wallpaper ————— */
 .wallpaper {
   position: absolute;
-  inset: -4%;
-  background: url("assets/wallpaper.jpg") center / cover no-repeat #f4f2f8;
-  transform: scale(1.001);
-  transition: transform 1.1s var(--ease-out), filter 1.1s var(--ease-out);
-  will-change: transform;
+  inset: 0;
+  background: url("assets/wallpaper.jpg") center / cover no-repeat #191921;
 }
-.screen.locked .wallpaper { transform: scale(1.06); }
 
 /* ————— Dynamic Island ————— */
 .island {
   position: absolute;
-  top: 1.6cqh;
+  top: 0.9cqh;
   left: 50%;
   transform: translateX(-50%);
   width: 31cqw;
-  height: 3.4cqh;
+  height: 3.8cqh;
   background: #000;
   border-radius: 10cqw;
   z-index: 40;
@@ -115,11 +111,12 @@ body.mobile .island { display: none; }
 .sb-left, .sb-right { display: flex; align-items: center; gap: 2.2cqw; }
 .sb-time { font-size: 4.1cqw; font-weight: 600; letter-spacing: .02em; }
 .carrier-name { font-size: 3.9cqw; font-weight: 500; }
-.sb-ic { width: 5.4cqw; height: 3.4cqw; fill: var(--ink); }
+.statusbar { color: #fff; text-shadow: 0 1px 3px rgba(8,6,24,.45); }
+.sb-ic { width: 5.4cqw; height: 3.4cqw; fill: #fff; filter: drop-shadow(0 1px 2px rgba(8,6,24,.45)); }
 .sb-ic.wifi { width: 4.6cqw; }
 .sb-ic.batt { width: 6.6cqw; }
-.sb-ic [stroke-width] { stroke: var(--ink); }
-.sb-ic path[stroke-width], .sb-ic rect[stroke-width] { stroke: var(--ink); }
+.sb-ic [stroke-width] { stroke: #fff; }
+.sb-ic path[stroke-width], .sb-ic rect[stroke-width] { stroke: #fff; }
 
 /* ————— Boot ————— */
 .boot {
@@ -187,24 +184,36 @@ body.mobile .island { display: none; }
 .lock-top { text-align: center; margin-top: 9.5cqh; }
 .lock-date {
   font-size: 5.2cqw;
-  font-weight: 500;
-  color: var(--ink);
+  font-weight: 600;
   opacity: 0;
   transform: translateY(-12px);
   transition: opacity .7s ease .1s, transform .7s var(--ease-out) .1s;
 }
 .lock-time {
   font-size: 20.5cqw;
-  font-weight: 250;
+  font-weight: 300;
   letter-spacing: -.04em;
   line-height: 1.04;
-  color: var(--ink);
   font-variant-numeric: tabular-nums;
   opacity: 0;
   transform: translateY(-14px);
   transition: opacity .8s ease .22s, transform .8s var(--ease-out) .22s;
 }
 .lock.show .lock-date, .lock.show .lock-time { opacity: 1; transform: none; }
+
+/* liquid glass lettering */
+.glass {
+  color: transparent;
+  background-image:
+    linear-gradient(rgba(255,255,255,.10), rgba(255,255,255,.02)),
+    url("assets/wallpaper.jpg");
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 1px rgba(255,255,255,.42);
+  text-shadow:
+    0 1px 2px rgba(8,6,24,.10),
+    0 6px 30px rgba(255,255,255,.22);
+}
 
 /* notifications */
 .notifications {
@@ -243,7 +252,7 @@ body.mobile .island { display: none; }
 .notif:active { transform: scale(.97); }
 .notif.in:active { transform: scale(.97); transition: transform .15s ease; }
 .notif-icon { width: 9.5cqw; height: 9.5cqw; flex: none; border-radius: 22.5%; overflow: hidden; display: block; }
-.notif-icon svg { width: 100%; height: 100%; display: block; }
+.notif-icon svg, .notif-icon img { width: 100%; height: 100%; display: block; }
 .notif-body { display: flex; flex-direction: column; min-width: 0; flex: 1; }
 .notif-top { display: flex; justify-content: space-between; align-items: baseline; }
 .notif-app { font-size: 3.1cqw; font-weight: 500; letter-spacing: .04em; color: var(--ink-soft); }
@@ -276,7 +285,7 @@ body.mobile .island { display: none; }
   border-radius: 50%;
   border: 0;
   cursor: pointer;
-  background: rgba(30,30,40,.28);
+  background: rgba(10,10,20,.38);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   display: grid;
@@ -285,20 +294,18 @@ body.mobile .island { display: none; }
 }
 .lock-round svg { width: 62%; height: 62%; }
 .lock-round:active { transform: scale(.88); }
-.lock-round.lit { background: rgba(255,255,255,.92); }
-.lock-round.lit svg use { filter: invert(1); }
-.lock-round.lit svg { filter: invert(.85); }
 
 .swipe-zone { text-align: center; padding-bottom: 1.2cqh; margin-top: 2.5cqh; }
 .swipe-hint {
   font-size: 3.7cqw;
   font-weight: 500;
-  color: var(--ink);
-  opacity: .75;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(8,6,24,.5);
+  opacity: .85;
   margin-bottom: 1.6cqh;
   animation: hintPulse 2.6s ease-in-out infinite;
 }
-@keyframes hintPulse { 0%,100% { opacity: .45; } 50% { opacity: .9; } }
+@keyframes hintPulse { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
 
 .home-indicator {
   width: 34cqw;
@@ -308,19 +315,7 @@ body.mobile .island { display: none; }
   background: var(--ink);
   margin: 0 auto;
 }
-.home-indicator.light { background: #fff; box-shadow: 0 0 6px rgba(0,0,0,.25); }
-
-/* flashlight overlay */
-.flash-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 55;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .3s ease;
-  background: radial-gradient(circle at 12% 88%, rgba(255,255,255,.97) 0%, rgba(255,255,255,.82) 34%, rgba(255,255,255,.45) 62%, rgba(255,255,255,.15) 100%);
-}
-.flash-overlay.on { opacity: 1; }
+.home-indicator.light { background: #fff; box-shadow: 0 1px 4px rgba(8,6,24,.4); }
 
 /* ————— Home screen ————— */
 .home {
@@ -387,7 +382,8 @@ body.mobile .island { display: none; }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: rgba(25,22,38,.82);
+  color: #fff;
+  text-shadow: 0 1px 2.5px rgba(8,6,24,.55);
 }
 
 /* live calendar icon */
@@ -495,38 +491,32 @@ body.mobile .island { display: none; }
   width: 1.9cqw;
   height: 1.9cqw;
   border-radius: 50%;
-  background: rgba(25,22,38,.28);
+  background: rgba(255,255,255,.42);
   border: 0;
   cursor: pointer;
   padding: 0;
+  box-shadow: 0 1px 2px rgba(8,6,24,.25);
   transition: background .3s ease, transform .3s ease;
 }
-.dot.active { background: rgba(25,22,38,.85); transform: scale(1.12); }
+.dot.active { background: #fff; transform: scale(1.12); }
 
 /* dock */
 .dock {
   flex: none;
-  margin: 0 3.6cqw 1.6cqh;
-  height: 15.8cqh;
+  margin: 0 3.6cqw 1.4cqh;
+  padding: 1.5cqh 2cqw 1.3cqh;
   border-radius: 6.8cqw;
-  background: rgba(255,255,255,.42);
+  background: rgba(255,255,255,.30);
   -webkit-backdrop-filter: blur(26px) saturate(1.8);
   backdrop-filter: blur(26px) saturate(1.8);
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  box-shadow: 0 .9cqh 2.6cqh rgba(35,25,80,.10);
+  box-shadow: 0 .9cqh 2.6cqh rgba(10,8,30,.18);
 }
-.dock .app-icon { box-shadow: none; }
+.dock .app-icon { box-shadow: none; width: 14.2cqw; height: 14.2cqw; }
+.dock .app-label { font-size: 2.85cqw; margin-top: .5cqh; }
 .home > .home-indicator { margin-bottom: 1.1cqh; flex: none; }
-
-/* jiggle mode */
-.home.jiggle .app-icon { animation: jig .26s infinite alternate ease-in-out; animation-delay: var(--jd, 0s); }
-.home.jiggle .widget { animation: jig .26s infinite alternate ease-in-out; animation-delay: var(--jd, 0s); }
-@keyframes jig {
-  from { transform: rotate(-1.7deg) scale(1.02); }
-  to   { transform: rotate(1.7deg)  scale(1.02); }
-}
 
 /* ————— Calendar app ————— */
 .calapp {
@@ -635,11 +625,16 @@ body.mobile .island { display: none; }
 .cal-home { background: none; border: 0; padding: 1.4cqh 0 1.6cqh; cursor: pointer; }
 
 /* ————— Mobile tweaks ————— */
+body.mobile {
+  background: url("assets/wallpaper.jpg") center / cover no-repeat #191921;
+}
 body.mobile .statusbar { display: none; }
-body.mobile .home { padding-top: env(safe-area-inset-top, 0px); }
+body.mobile .home {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
 body.mobile .lock { padding-top: calc(env(safe-area-inset-top, 0px) + 1.5cqh); }
 body.mobile .lock-top { margin-top: 8.5cqh; }
-body.mobile .dock { margin-bottom: calc(1.2cqh + env(safe-area-inset-bottom, 0px) * .4); }
 body.mobile .home > .home-indicator,
 body.mobile .swipe-zone .home-indicator { display: none; }
 body.mobile .swipe-zone { padding-bottom: calc(1cqh + env(safe-area-inset-bottom, 0px)); }
