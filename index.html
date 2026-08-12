@@ -65,9 +65,6 @@
     </g>
   </symbol>
 
-  <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="M15.5 4.5 8 12l7.5 7.5" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="M8.5 4.5 16 12l-7.5 7.5" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-
   <symbol id="i-pin" viewBox="0 0 24 24">
     <path d="M12 22s7.5-6.6 7.5-12A7.5 7.5 0 0 0 4.5 10c0 5.4 7.5 12 7.5 12z" fill="none" stroke-width="1.8"/>
     <circle cx="12" cy="10" r="2.6" fill="none" stroke-width="1.8"/>
@@ -114,39 +111,6 @@
         <div class="home-indicator light"></div>
       </section>
 
-      <!-- CALENDAR APP -->
-      <section class="calapp" id="calApp" aria-label="Calendar">
-        <div class="cal-head">
-          <div class="cal-year" id="calYear">2026</div>
-          <div class="cal-title-row">
-            <h1 id="calMonth">August</h1>
-            <div class="cal-nav">
-              <button id="calPrev" aria-label="Previous month"><svg><use href="#i-chev-l"/></svg></button>
-              <button id="calNext" aria-label="Next month"><svg><use href="#i-chev-r"/></svg></button>
-            </div>
-          </div>
-          <div class="cal-dow-row">
-            <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
-          </div>
-        </div>
-        <div class="cal-grid" id="calGrid"></div>
-        <div class="cal-events">
-          <div class="cal-events-title">Upcoming</div>
-          <div class="cal-event">
-            <div class="cal-event-date"><span class="ce-mon">SEP</span><span class="ce-day">29</span></div>
-            <div class="cal-event-info">
-              <div class="ce-name">OpenAI Dev Day</div>
-              <div class="ce-meta">Tuesday &middot; 10:00 AM</div>
-              <div class="ce-meta loc"><svg><use href="#i-pin"/></svg>San Francisco, California</div>
-            </div>
-            <div class="ce-count" id="ceCount">48d</div>
-          </div>
-        </div>
-        <button class="cal-home" id="calClose" aria-label="Close Calendar">
-          <div class="home-indicator dark"></div>
-        </button>
-      </section>
-
       <!-- LOCK SCREEN -->
       <section class="lock" id="lock" aria-label="Lock screen">
         <header class="statusbar">
@@ -160,8 +124,8 @@
           </div>
         </header>
         <div class="lock-top">
-          <div class="lock-date glass" id="lockDate">Wednesday, August 12</div>
-          <div class="lock-time glass" id="lockTime">11:11</div>
+          <div class="lock-date" id="lockDate">Wednesday, August 12</div>
+          <div class="lock-time" id="lockTime">11:11</div>
         </div>
         <div class="notifications" id="notifications">
           <button class="notif" id="notifMsg">

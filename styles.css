@@ -53,15 +53,15 @@ body {
 
 .screen {
   position: absolute;
-  left: 4.898%;
-  top: 7.1333%;
-  width: 90.2041%;
-  height: 90.7667%;
+  left: 2.789%;
+  top: 1.0667%;
+  width: 94.354%;
+  height: 97.833%;
   z-index: 1;
   overflow: hidden;
   background: #000;
   container-type: size;
-  border-radius: 0.35% / 0.18%;
+  border-radius: 18% / 8.5%;
 }
 
 /* ————— Mobile: no bezel, fullscreen ————— */
@@ -86,11 +86,11 @@ body.mobile .island { display: none; }
 /* ————— Dynamic Island ————— */
 .island {
   position: absolute;
-  top: 0.9cqh;
+  top: 0.75cqh;
   left: 50%;
   transform: translateX(-50%);
-  width: 31cqw;
-  height: 3.8cqh;
+  width: 30cqw;
+  height: 3.5cqh;
   background: #000;
   border-radius: 10cqw;
   z-index: 40;
@@ -99,11 +99,11 @@ body.mobile .island { display: none; }
 
 /* ————— Status bar ————— */
 .statusbar {
-  height: 7.2cqh;
+  height: 6.2cqh;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 8.5cqw 0 8.5cqw;
+  padding: 0 9cqw 0 9cqw;
   position: relative;
   z-index: 5;
   flex: none;
@@ -135,10 +135,12 @@ body.mobile .island { display: none; }
   height: 21cqw;
   fill: #fff;
   opacity: 0;
-  transform: scale(.96);
-  transition: opacity .8s ease, transform .8s ease;
+  animation: logoIn .8s ease .15s forwards;
 }
-.boot.on .boot-logo { opacity: 1; transform: scale(1); }
+@keyframes logoIn {
+  from { opacity: 0; transform: scale(.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
 .boot-track {
   position: absolute;
   top: 63cqh;
@@ -151,14 +153,20 @@ body.mobile .island { display: none; }
   background: rgba(255,255,255,.22);
   overflow: hidden;
   opacity: 0;
-  transition: opacity .4s ease;
+  animation: trackIn .4s ease .7s forwards;
 }
-.boot.on .boot-track { opacity: 1; transition-delay: .7s; }
+@keyframes trackIn { to { opacity: 1; } }
 .boot-fill {
   width: 0%;
   height: 100%;
   border-radius: inherit;
   background: #fff;
+  animation: fillBoot 2.25s cubic-bezier(.45,.08,.35,1) .78s forwards;
+}
+@keyframes fillBoot {
+  0%   { width: 0%; }
+  42%  { width: 57%; }
+  100% { width: 100%; }
 }
 
 /* ————— Lock screen ————— */
@@ -185,35 +193,25 @@ body.mobile .island { display: none; }
 .lock-date {
   font-size: 5.2cqw;
   font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(8,6,24,.35);
   opacity: 0;
   transform: translateY(-12px);
   transition: opacity .7s ease .1s, transform .7s var(--ease-out) .1s;
 }
 .lock-time {
   font-size: 20.5cqw;
-  font-weight: 300;
-  letter-spacing: -.04em;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -.03em;
   line-height: 1.04;
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 18px rgba(8,6,24,.32);
   opacity: 0;
   transform: translateY(-14px);
   transition: opacity .8s ease .22s, transform .8s var(--ease-out) .22s;
 }
 .lock.show .lock-date, .lock.show .lock-time { opacity: 1; transform: none; }
-
-/* liquid glass lettering */
-.glass {
-  color: transparent;
-  background-image:
-    linear-gradient(rgba(255,255,255,.10), rgba(255,255,255,.02)),
-    url("assets/wallpaper.jpg");
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-stroke: 1px rgba(255,255,255,.42);
-  text-shadow:
-    0 1px 2px rgba(8,6,24,.10),
-    0 6px 30px rgba(255,255,255,.22);
-}
 
 /* notifications */
 .notifications {
@@ -386,18 +384,6 @@ body.mobile .island { display: none; }
   text-shadow: 0 1px 2.5px rgba(8,6,24,.55);
 }
 
-/* live calendar icon */
-.cal-icon {
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.05), 0 .9cqh 2.2cqh rgba(35,25,80,.13);
-}
-.cal-icon-dow { font-size: 3cqw; font-weight: 600; color: var(--red); letter-spacing: .08em; line-height: 1; }
-.cal-icon-day { font-size: 8.2cqw; font-weight: 400; color: var(--ink); line-height: 1.02; }
-
 /* entrance animation */
 .home .app, .home .widget, .home .dock, .home .statusbar, .home .dots {
   opacity: 0;
@@ -437,27 +423,40 @@ body.mobile .island { display: none; }
 .widget.w4 { grid-column: span 4; grid-row: span 2; }
 .widget.w2 { grid-column: span 2; grid-row: span 2; }
 
-/* calendar widget (page 1) */
+/* calendar reminder widget (page 1) */
 .wg-cal {
+  position: relative;
   background: rgba(255,255,255,.62);
   -webkit-backdrop-filter: blur(22px) saturate(1.7);
   backdrop-filter: blur(22px) saturate(1.7);
   display: flex;
   align-items: center;
   padding: 0 5cqw;
-  gap: 4.5cqw;
+  gap: 4.2cqw;
+  cursor: default;
 }
-.wg-cal-left { display: flex; flex-direction: column; align-items: flex-start; flex: none; }
-.wg-cal-dow { font-size: 3.4cqw; font-weight: 600; color: var(--red); letter-spacing: .05em; }
-.wg-cal-day { font-size: 11.5cqw; font-weight: 300; color: var(--ink); line-height: 1; margin-top: .4cqh; }
-.wg-cal-sep { width: 1px; align-self: stretch; margin: 2.4cqh 0; background: rgba(0,0,0,.12); flex: none; }
-.wg-cal-right { min-width: 0; }
+.wg-cal-badge {
+  flex: none;
+  width: 11.5cqw;
+  aspect-ratio: 1;
+  background: #fff;
+  border-radius: 3cqw;
+  box-shadow: 0 .4cqh 1.1cqh rgba(35,25,80,.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.wg-cal-badge-mon { font-size: 2.6cqw; font-weight: 700; color: var(--red); letter-spacing: .07em; line-height: 1; }
+.wg-cal-badge-day { font-size: 6.6cqw; font-weight: 500; color: var(--ink); line-height: 1.04; }
+.wg-cal-right { min-width: 0; padding-right: 12cqw; }
 .wg-cal-kicker { font-size: 2.9cqw; font-weight: 600; color: var(--red); letter-spacing: .05em; text-transform: uppercase; }
 .wg-cal-name { font-size: 4.4cqw; font-weight: 700; margin-top: .5cqh; }
 .wg-cal-meta { font-size: 3.3cqw; color: var(--ink-soft); margin-top: .4cqh; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .wg-cal-pill {
-  display: inline-block;
-  margin-top: 1cqh;
+  position: absolute;
+  top: 1.7cqh;
+  right: 4cqw;
   font-size: 2.9cqw;
   font-weight: 600;
   color: var(--red);
@@ -518,112 +517,6 @@ body.mobile .island { display: none; }
 .dock .app-label { font-size: 2.85cqw; margin-top: .5cqh; }
 .home > .home-indicator { margin-bottom: 1.1cqh; flex: none; }
 
-/* ————— Calendar app ————— */
-.calapp {
-  position: absolute;
-  inset: 0;
-  z-index: 30;
-  background: rgba(252,252,253,.96);
-  -webkit-backdrop-filter: blur(30px);
-  backdrop-filter: blur(30px);
-  transform: translateY(104%);
-  transition: transform .48s cubic-bezier(.32,.72,.33,1);
-  display: flex;
-  flex-direction: column;
-  padding: 8.4cqh 5.5cqw 0;
-}
-.calapp.open { transform: none; }
-.calapp > * { flex: none; }
-.cal-year { color: var(--red); font-size: 3.6cqw; font-weight: 600; }
-.cal-title-row { display: flex; align-items: center; justify-content: space-between; margin-top: .4cqh; }
-.cal-title-row h1 { font-size: 8.6cqw; font-weight: 700; letter-spacing: -.02em; }
-.cal-nav { display: flex; gap: 2.4cqw; }
-.cal-nav button {
-  width: 8.6cqw; height: 8.6cqw;
-  border-radius: 50%;
-  border: 0;
-  background: rgba(120,120,128,.14);
-  cursor: pointer;
-  display: grid; place-items: center;
-}
-.cal-nav svg { width: 55%; height: 55%; stroke: var(--ink); }
-.cal-nav button:active { background: rgba(120,120,128,.28); }
-.cal-dow-row {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  margin-top: 2.2cqh;
-  padding-bottom: 1.2cqh;
-  border-bottom: 1px solid rgba(0,0,0,.08);
-}
-.cal-dow-row span { font-size: 2.7cqw; font-weight: 600; color: var(--ink-soft); text-align: center; letter-spacing: .04em; }
-.cal-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-auto-rows: 7cqh;
-  align-items: center;
-  justify-items: center;
-  margin-top: 1cqh;
-}
-.cal-cell {
-  position: relative;
-  width: 8.2cqw;
-  height: 8.2cqw;
-  display: grid;
-  place-items: center;
-  font-size: 4cqw;
-  font-weight: 400;
-  border-radius: 50%;
-}
-.cal-cell.other { color: rgba(28,28,30,.28); }
-.cal-cell.today { background: var(--red); color: #fff; font-weight: 600; }
-.cal-cell.event { box-shadow: inset 0 0 0 2px var(--red); font-weight: 600; color: var(--red); }
-.cal-cell.event::after {
-  content: "";
-  position: absolute;
-  bottom: -1.1cqh;
-  width: 1.4cqw; height: 1.4cqw;
-  border-radius: 50%;
-  background: var(--red);
-}
-.cal-events { margin-top: auto; padding-bottom: 2cqh; }
-.cal-events-title { font-size: 3.4cqw; font-weight: 700; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 1.2cqh; }
-.cal-event {
-  display: flex;
-  align-items: center;
-  gap: 3.6cqw;
-  background: #fff;
-  border-radius: 4.4cqw;
-  padding: 2.6cqw 3.4cqw;
-  box-shadow: 0 .8cqh 2.4cqh rgba(35,25,80,.10);
-}
-.cal-event-date {
-  flex: none;
-  width: 12.5cqw;
-  height: 12.5cqw;
-  border-radius: 3.4cqw;
-  background: rgba(250,45,72,.10);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.ce-mon { font-size: 2.4cqw; font-weight: 700; color: var(--red); letter-spacing: .05em; }
-.ce-day { font-size: 6cqw; font-weight: 600; color: var(--red); line-height: 1; }
-.cal-event-info { min-width: 0; flex: 1; }
-.ce-name { font-size: 4.2cqw; font-weight: 700; }
-.ce-meta { font-size: 3.2cqw; color: var(--ink-soft); margin-top: .3cqh; display: flex; align-items: center; gap: 1.2cqw; }
-.ce-meta svg { width: 3.2cqw; height: 3.2cqw; stroke: var(--ink-soft); }
-.ce-count {
-  flex: none;
-  font-size: 3.1cqw;
-  font-weight: 700;
-  color: var(--red);
-  background: rgba(250,45,72,.12);
-  border-radius: 3cqw;
-  padding: .7cqh 2.6cqw;
-}
-.cal-home { background: none; border: 0; padding: 1.4cqh 0 1.6cqh; cursor: pointer; }
-
 /* ————— Mobile tweaks ————— */
 body.mobile {
   background: url("assets/wallpaper.jpg") center / cover no-repeat #191921;
@@ -638,8 +531,6 @@ body.mobile .lock-top { margin-top: 8.5cqh; }
 body.mobile .home > .home-indicator,
 body.mobile .swipe-zone .home-indicator { display: none; }
 body.mobile .swipe-zone { padding-bottom: calc(1cqh + env(safe-area-inset-bottom, 0px)); }
-body.mobile .calapp { padding-top: calc(4cqh + env(safe-area-inset-top, 0px)); }
-body.mobile .cal-home { padding-bottom: calc(1.2cqh + env(safe-area-inset-bottom, 0px)); }
 
 /* desktop cursor */
 body:not(.mobile) .app:hover .app-icon { transform: scale(1.04); }

@@ -31,7 +31,6 @@
     { name: "YouTube",       icon: "youtube.jpg",      url: "https://www.youtube.com/@DeltaXMusic" },
     { name: "Spotify",       icon: "spotify.jpg",      url: "https://open.spotify.com/artist/6aVIyHMzSIIhYNStHu8fBF" },
     { name: "Instagram",     icon: "instagram.jpg",    url: "https://www.instagram.com/loganxvoss/" },
-    { name: "Calendar",      icon: "calendar",         url: "#calendar" },
   ];
 
   const DEV_DAY = new Date(2026, 8, 29, 10, 0, 0); // Sep 29, 2026
@@ -58,42 +57,11 @@
     $("#sbTime").textContent = fmtTime(d);
     $("#lockTime").textContent = fmtTime(d);
     $("#lockDate").textContent = fmtDate(d);
-    document.querySelectorAll(".cal-live-day").forEach((el) => (el.textContent = d.getDate()));
-    document.querySelectorAll(".cal-live-dow").forEach((el) => {
-      el.textContent = d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
-    });
-    const wd = $("#wgCalDow"); if (wd) wd.textContent = d.toLocaleDateString("en-US", { weekday: "long" }).toUpperCase();
-    const wday = $("#wgCalDay"); if (wday) wday.textContent = d.getDate();
     const days = Math.ceil((DEV_DAY.setHours(0,0,0,0) - new Date(d).setHours(0,0,0,0)) / 864e5);
     const label = days > 0 ? "in " + days + "d" : days === 0 ? "today" : "Sep 29";
     const cn = $("#calCountNotif"); if (cn) cn.textContent = label;
-    const cc = $("#ceCount"); if (cc) cc.textContent = days > 0 ? days + " days" : days === 0 ? "Today" : "Sep 29";
     const wp = $("#wgCalPill"); if (wp) wp.textContent = days > 0 ? days + " days away" : days === 0 ? "Today!" : "Sep 29, 2026";
-    alignGlass();
   }
-
-  /* ————— Liquid glass text: align clipped wallpaper to the real one ————— */
-  const IMG_RATIO = 1400 / 2489; // wallpaper w/h
-  function alignGlass() {
-    const scr = screen.getBoundingClientRect();
-    if (!scr.width) return;
-    const sr = scr.width / scr.height;
-    let bw, bh;
-    if (sr > IMG_RATIO) { bw = scr.width; bh = scr.width / IMG_RATIO; }
-    else { bh = scr.height; bw = scr.height * IMG_RATIO; }
-    const bx = (scr.width - bw) / 2, by = (scr.height - bh) / 2;
-    const S = 1.06; // slight refraction
-    const bw2 = bw * S, bh2 = bh * S;
-    const bx2 = bx - (bw2 - bw) / 2, by2 = by - (bh2 - bh) / 2;
-    document.querySelectorAll(".glass").forEach((el) => {
-      const r = el.getBoundingClientRect();
-      el.style.backgroundSize = `100% 100%, ${bw2}px ${bh2}px`;
-      el.style.backgroundPosition = `0 0, ${bx2 - (r.left - scr.left)}px ${by2 - (r.top - scr.top)}px`;
-    });
-  }
-  addEventListener("resize", alignGlass);
-  addEventListener("orientationchange", () => setTimeout(alignGlass, 250));
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(alignGlass);
 
   /* ————— Build home pages ————— */
   const track = $("#pagesTrack");
@@ -115,41 +83,28 @@
     const a = document.createElement("a");
     a.className = "app";
     a.setAttribute("aria-label", app.name);
-    if (app.url === "#calendar") {
-      a.href = "#";
-      a.addEventListener("click", (e) => { e.preventDefault(); if (!suppressClick) openCalendar(); });
-    } else {
-      a.href = app.url;
-      a.target = "_blank";
-      a.rel = "noopener";
-    }
-    let icon;
-    if (app.icon === "calendar") {
-      icon = `<span class="app-icon cal-icon"><span class="cal-live-dow cal-icon-dow">WED</span><span class="cal-live-day cal-icon-day">12</span></span>`;
-    } else {
-      icon = `<span class="app-icon"><img src="assets/icons/${app.icon}" alt="" draggable="false"></span>`;
-    }
-    a.innerHTML = icon + `<span class="app-label">${app.name}</span>`;
+    a.href = app.url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.innerHTML = `<span class="app-icon"><img src="assets/icons/${app.icon}" alt="" draggable="false"></span><span class="app-label">${app.name}</span>`;
     return a;
   }
 
   function widgetCalendar() {
-    const b = document.createElement("button");
+    const b = document.createElement("div");
     b.className = "widget w4 wg-cal";
-    b.setAttribute("aria-label", "Calendar — OpenAI Dev Day");
+    b.setAttribute("aria-label", "Reminder — OpenAI Dev Day, September 29, San Francisco");
     b.innerHTML = `
-      <span class="wg-cal-left">
-        <span class="wg-cal-dow" id="wgCalDow">WEDNESDAY</span>
-        <span class="wg-cal-day" id="wgCalDay">12</span>
+      <span class="wg-cal-badge">
+        <span class="wg-cal-badge-mon">SEP</span>
+        <span class="wg-cal-badge-day">29</span>
       </span>
-      <span class="wg-cal-sep"></span>
       <span class="wg-cal-right">
-        <span class="wg-cal-kicker">Upcoming</span>
+        <span class="wg-cal-kicker">Reminder</span>
         <span class="wg-cal-name" style="display:block">OpenAI Dev Day</span>
-        <span class="wg-cal-meta" style="display:block">Tue, Sep 29 &middot; San Francisco, CA</span>
-        <span class="wg-cal-pill" id="wgCalPill">48 days away</span>
-      </span>`;
-    b.addEventListener("click", () => { if (!suppressClick) openCalendar(); });
+        <span class="wg-cal-meta" style="display:block">Tuesday &middot; San Francisco, California</span>
+      </span>
+      <span class="wg-cal-pill" id="wgCalPill">48 days away</span>`;
     return b;
   }
 
@@ -264,7 +219,7 @@
   // desktop wheel paging
   let wheelLock = 0;
   addEventListener("wheel", (e) => {
-    if (!home.classList.contains("unlocked") || calOpen) return;
+    if (!home.classList.contains("unlocked")) return;
     const t = Date.now();
     if (t - wheelLock < 650) return;
     const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
@@ -277,30 +232,16 @@
     if (e.key === "ArrowRight") goToPage(curPage + 1);
     if (e.key === "ArrowLeft") goToPage(curPage - 1);
     if (e.key === "ArrowUp" && !unlocked) unlock();
-    if (e.key === "Escape" && calOpen) closeCalendar();
   });
 
-  /* ————— Boot sequence ————— */
+  /* ————— Boot sequence (logo + bar animate via CSS so they paint instantly) ————— */
   const boot = $("#boot");
-  const bootFill = $("#bootFill");
   let booted = false;
 
   function runBoot() {
-    requestAnimationFrame(() => boot.classList.add("on"));
-    bootFill.style.transition = "none";
-    bootFill.style.width = "0%";
-    const t1 = setTimeout(() => {
-      bootFill.style.transition = "width 1.05s cubic-bezier(.5,.05,.35,1)";
-      bootFill.style.width = "58%";
-    }, 750);
-    const t2 = setTimeout(() => {
-      bootFill.style.transition = "width .8s cubic-bezier(.3,.6,.3,1)";
-      bootFill.style.width = "100%";
-    }, 1950);
-    const t3 = setTimeout(finishBoot, 3050);
-    boot.dataset.timers = [t1, t2, t3].join(",");
+    const t3 = setTimeout(finishBoot, 3150);
     boot.addEventListener("pointerdown", () => {
-      boot.dataset.timers.split(",").forEach((id) => clearTimeout(+id));
+      clearTimeout(t3);
       finishBoot();
     }, { once: true });
   }
@@ -311,7 +252,6 @@
     boot.classList.add("done");
     const lock = $("#lock");
     lock.classList.add("show");
-    alignGlass();
     setTimeout(() => $("#notifMsg").classList.add("in"), 850);
     setTimeout(() => $("#notifCal").classList.add("in"), 2100);
     setTimeout(() => boot.remove(), 900);
@@ -359,7 +299,7 @@
 
   $("#swipeHint").addEventListener("click", () => !unlocked && unlock());
   $("#notifMsg").addEventListener("click", () => !unlocked && unlock());
-  $("#notifCal").addEventListener("click", () => { if (!unlocked) { unlock(); setTimeout(openCalendar, 650); } });
+  $("#notifCal").addEventListener("click", () => !unlocked && unlock());
 
   function unlock() {
     if (unlocked) return;
@@ -376,60 +316,6 @@
     window.open(APP_STORE + "anima-camera/id6751657083", "_blank", "noopener");
   });
 
-  /* ————— Calendar app ————— */
-  const calApp = $("#calApp");
-  let calOpen = false;
-  let viewDate = new Date(now().getFullYear(), now().getMonth(), 1);
-
-  function openCalendar() {
-    calOpen = true;
-    viewDate = new Date(now().getFullYear(), now().getMonth(), 1);
-    renderCalendar();
-    calApp.classList.add("open");
-  }
-  function closeCalendar() {
-    calOpen = false;
-    calApp.classList.remove("open");
-  }
-  $("#calClose").addEventListener("click", closeCalendar);
-
-  let calDrag = false, calStartY = 0;
-  calApp.addEventListener("pointerdown", (e) => { calDrag = true; calStartY = e.clientY; });
-  calApp.addEventListener("pointerup", (e) => {
-    if (calDrag && e.clientY - calStartY > 90) closeCalendar();
-    calDrag = false;
-  });
-
-  $("#calPrev").addEventListener("click", () => { viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1); renderCalendar(); });
-  $("#calNext").addEventListener("click", () => { viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1); renderCalendar(); });
-
-  function renderCalendar() {
-    const y = viewDate.getFullYear(), m = viewDate.getMonth();
-    $("#calMonth").textContent = viewDate.toLocaleDateString("en-US", { month: "long" });
-    $("#calYear").textContent = y;
-    const grid = $("#calGrid");
-    grid.innerHTML = "";
-    const first = new Date(y, m, 1).getDay();
-    const daysIn = new Date(y, m + 1, 0).getDate();
-    const daysPrev = new Date(y, m, 0).getDate();
-    const today = now();
-    const cells = [];
-    for (let i = first - 1; i >= 0; i--) cells.push({ d: daysPrev - i, other: true });
-    for (let d = 1; d <= daysIn; d++) cells.push({ d, other: false });
-    while (cells.length % 7 !== 0) cells.push({ d: cells.length - (first + daysIn) + 1, other: true });
-
-    cells.forEach((c) => {
-      const el = document.createElement("div");
-      el.className = "cal-cell" + (c.other ? " other" : "");
-      el.textContent = c.d;
-      if (!c.other) {
-        if (y === today.getFullYear() && m === today.getMonth() && c.d === today.getDate()) el.classList.add("today");
-        if (y === DEV_DAY.getFullYear() && m === DEV_DAY.getMonth() && c.d === DEV_DAY.getDate()) el.classList.add("event");
-      }
-      grid.appendChild(el);
-    });
-  }
-
   /* ————— Context menu suppression (immersion) ————— */
   screen.addEventListener("contextmenu", (e) => e.preventDefault());
 
@@ -437,6 +323,5 @@
   buildHome();
   tick();
   setInterval(tick, 5000);
-  setTimeout(alignGlass, 60);
   runBoot();
 })();
