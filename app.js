@@ -128,20 +128,20 @@
   }
 
   function buildHome() {
-    // Page 1: my apps — Anima pinned top-right (slot 3), rest shuffled; reminder widget rows 5–6
-    const mine = shuffle(MY_APPS.filter((a) => !a.pin));
-    const anima = MY_APPS.find((a) => a.pin);
+    // Page 1: reminder widget up top, then all social apps (shuffled)
     const p1 = document.createElement("div");
     p1.className = "page";
-    const pageOne = [...mine.slice(0, 3), anima, ...mine.slice(3)];
-    pageOne.forEach((a) => p1.appendChild(appEl(a)));
     p1.appendChild(widgetCalendar());
+    shuffle(SOCIAL_APPS.slice()).forEach((a) => p1.appendChild(appEl(a)));
 
-    // Page 2: music widget + social apps (shuffled)
+    // Page 2: music widget top-left, then my apps — Anima pinned top-right
+    const mine = shuffle(MY_APPS.filter((a) => !a.pin));
+    const anima = MY_APPS.find((a) => a.pin);
     const p2 = document.createElement("div");
     p2.className = "page";
     p2.appendChild(widgetMusic());
-    shuffle(SOCIAL_APPS.slice()).forEach((a) => p2.appendChild(appEl(a)));
+    const pageTwo = [mine[0], anima, ...mine.slice(1)];
+    pageTwo.forEach((a) => p2.appendChild(appEl(a)));
 
     track.append(p1, p2);
     pageEls = [p1, p2];
