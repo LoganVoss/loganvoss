@@ -81,7 +81,7 @@ body.mobile .island { display: none; }
 .wallpaper {
   position: absolute;
   inset: 0;
-  background: url("assets/wallpaper-original.jpg") center / cover no-repeat #dfe9fa;
+  background: url("assets/wallpaper-hd.png") center / cover no-repeat #dfe9fa;
 }
 /* Mobile wallpaper overscans the layout viewport so iOS never exposes its
    canvas at either safe-area edge while Safari's chrome expands/collapses. */
@@ -91,7 +91,7 @@ body.mobile {
   width: 100%;
   min-height: 100%;
   min-height: 100lvh;
-  background: url("assets/wallpaper-original.jpg") center / cover no-repeat #c8d9f6;
+  background: url("assets/wallpaper-hd.png") center / cover no-repeat #c8d9f6;
 }
 body.mobile .mobile-bg {
   display: block;
@@ -101,11 +101,34 @@ body.mobile .mobile-bg {
   left: 0;
   right: 0;
   min-height: calc(100lvh + 240px);
-  background: url("assets/wallpaper-original.jpg") center / cover no-repeat #c8d9f6;
+  background: url("assets/wallpaper-hd.png") center / cover no-repeat #c8d9f6;
   pointer-events: none;
   z-index: 0;
 }
 body.mobile .wallpaper { display: none; }
+
+/* Safari 26 samples fixed edge colors for its top and bottom Liquid Glass
+   chrome instead of reliably honoring theme-color. These strips sit behind
+   the phone UI and prevent Safari from falling back to black. */
+.safari-tint { display: none; }
+body.mobile .safari-tint {
+  display: block;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+body.mobile .safari-tint-top {
+  top: 0;
+  height: 4px;
+  background-color: #d8dff2;
+}
+body.mobile .safari-tint-bottom {
+  bottom: -8px;
+  min-height: 12px;
+  background-color: #c8d9f6;
+}
 
 /* ————— Dynamic Island ————— */
 .island {
@@ -138,7 +161,7 @@ body.mobile .wallpaper { display: none; }
 .statusbar { color: #16233f; }
 .sb-ic { width: 5.4cqw; height: 3.4cqw; fill: #16233f; }
 .sb-ic.wifi { width: 4.6cqw; }
-.sb-ic.batt { width: 7cqw; }
+.sb-ic.batt { width: 6.6cqw; }
 .sb-ic [stroke-width] { stroke: #16233f; }
 .sb-ic path[stroke-width], .sb-ic rect[stroke-width] { stroke: #16233f; }
 

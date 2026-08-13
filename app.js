@@ -115,7 +115,7 @@
   function widgetMusic() {
     const a = document.createElement("a");
     a.className = "widget w2 wg-music";
-    a.href = "https://music.apple.com/us/artist/deltax/1620112963";
+    a.href = "https://music.apple.com/us/album/weightless/6799590827";
     a.target = "_blank";
     a.rel = "noopener";
     a.setAttribute("aria-label", "DeltaX on Apple Music");
@@ -148,8 +148,8 @@
     [
       "HyperVid", "Anima Camera",
       "Fluorescent", "Vibey",
-      "Orbital Pursuit", "Gen Icon", "Bazoomba", "Exif Hunter",
-      "Virtual Snow", "Life", "Library", "Lyric Video",
+      "Orbital Pursuit", "Bazoomba", "Gen Icon", "Exif Hunter",
+      "Virtual Snow", "Life", "Lyric Video", "Library",
       "Boltz",
     ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
 
