@@ -64,81 +64,62 @@ body {
   border-radius: 16.4% / 7.7%;
 }
 
-/* ————— Mobile: no bezel, fullscreen ————— */
-body.mobile .stage { display: block; min-height: 100dvh; min-height: -webkit-fill-available; background: none; position: relative; z-index: 1; }
-body.mobile .phone { position: fixed; inset: 0; aspect-ratio: auto; width: 100%; height: 100%; height: 100dvh; height: -webkit-fill-available; z-index: 1; }
-body.mobile .bezel { display: none; }
-body.mobile .screen {
-  inset: 0;
+/* ————— Mobile: abandon the bezel shell entirely —————
+   html.mobile is set in <head> before first paint. The wallpaper is a
+   real <img> on the document (not inside the phone cutout) sized to
+   100lvh so it fills the whole device, including under Safari chrome. */
+.mobile-wallpaper { display: none; }
+
+html.mobile,
+html.mobile body {
   width: 100%;
   height: 100%;
-  border-radius: 0;
-  background: none;
+  min-height: 100%;
+  background: #c8d9f6;
 }
-body.mobile .island { display: none; }
 
-/* ————— Wallpaper ————— */
+html.mobile .mobile-wallpaper {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100lvh;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+html.mobile .bezel,
+html.mobile .island { display: none; }
+
+html.mobile .stage,
+html.mobile .phone,
+html.mobile .screen {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  aspect-ratio: auto;
+  border-radius: 0;
+  background: transparent;
+  filter: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+html.mobile .wallpaper { display: none; }
+
+/* ————— Wallpaper (desktop, inside the bezel) ————— */
 .wallpaper {
   position: absolute;
   inset: 0;
   background: url("assets/wallpaper-hd.jpg") center / cover no-repeat #dfe9fa;
-}
-/* Paint the wallpaper on html itself so iOS Safari's safe-area chrome
-   (status bar + toolbar) shows the image instead of a black canvas. */
-.mobile-bg { display: none; }
-html.mobile {
-  height: auto;
-  min-height: 100vh;
-  min-height: 100dvh;
-  min-height: -webkit-fill-available;
-  background: #c8d9f6 url("assets/wallpaper-hd.jpg") center / cover no-repeat;
-}
-body.mobile {
-  width: 100%;
-  height: auto;
-  min-height: 100vh;
-  min-height: 100dvh;
-  min-height: -webkit-fill-available;
-  background: #c8d9f6 url("assets/wallpaper-hd.jpg") center / cover no-repeat;
-}
-body.mobile .mobile-bg {
-  display: block;
-  position: fixed;
-  top: calc(-1 * env(safe-area-inset-top, 0px) - 80px);
-  right: 0;
-  bottom: calc(-1 * env(safe-area-inset-bottom, 0px) - 80px);
-  left: 0;
-  width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
-  min-height: -webkit-fill-available;
-  background: #c8d9f6 url("assets/wallpaper-hd.jpg") center / cover no-repeat;
-  pointer-events: none;
-  z-index: 0;
-}
-body.mobile .wallpaper { display: none; }
-
-/* Safari 26 samples fixed edge colors for its top and bottom Liquid Glass
-   chrome instead of reliably honoring theme-color. These strips sit behind
-   the phone UI and prevent Safari from falling back to black. */
-.safari-tint { display: none; }
-body.mobile .safari-tint {
-  display: block;
-  position: fixed;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-body.mobile .safari-tint-top {
-  top: 0;
-  height: 4px;
-  background-color: #d8dff2;
-}
-body.mobile .safari-tint-bottom {
-  bottom: -8px;
-  min-height: 12px;
-  background-color: #c8d9f6;
 }
 
 /* ————— Dynamic Island ————— */
@@ -610,16 +591,16 @@ body.mobile .safari-tint-bottom {
 .home > .home-indicator { margin-bottom: 1.1cqh; flex: none; }
 
 /* ————— Mobile tweaks ————— */
-body.mobile .statusbar { display: none; }
-body.mobile .home {
+html.mobile .statusbar { display: none; }
+html.mobile .home {
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-body.mobile .lock { padding-top: calc(env(safe-area-inset-top, 0px) + 1.5cqh); }
-body.mobile .lock-top { margin-top: 4.5cqh; }
-body.mobile .home > .home-indicator,
-body.mobile .swipe-zone .home-indicator { display: none; }
-body.mobile .swipe-zone { padding-bottom: calc(1cqh + env(safe-area-inset-bottom, 0px)); }
+html.mobile .lock { padding-top: calc(env(safe-area-inset-top, 0px) + 1.5cqh); }
+html.mobile .lock-top { margin-top: 4.5cqh; }
+html.mobile .home > .home-indicator,
+html.mobile .swipe-zone .home-indicator { display: none; }
+html.mobile .swipe-zone { padding-bottom: calc(1cqh + env(safe-area-inset-bottom, 0px)); }
 
 /* desktop cursor */
 body:not(.mobile) .app:hover .app-icon { transform: scale(1.04); }
