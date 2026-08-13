@@ -8,7 +8,8 @@
 
   /* ————— Data ————— */
   const APP_STORE = "https://apps.apple.com/us/app/";
-  const APPS = [
+  // Logan's own apps — page 1 (Anima pinned top-right)
+  const MY_APPS = [
     { name: "Anima Camera",  icon: "anima.jpg",        url: APP_STORE + "anima-camera/id6751657083", pin: true },
     { name: "Bazoomba",      icon: "bazoomba.jpg",     url: APP_STORE + "bazoomba/id6759260189" },
     { name: "HyperVid",      icon: "hypervid.jpg",     url: APP_STORE + "hypervid/id6757205904" },
@@ -22,6 +23,9 @@
     { name: "EXIF Hunter",   icon: "exifhunter.png",   url: APP_STORE + "exif-hunter/id6747992699?mt=12" },
     { name: "Virtual Snow",  icon: "virtualsnow.png",  url: APP_STORE + "virtual-snow/id6747272596?mt=12" },
     { name: "GenIcon",       icon: "genicon.png",      url: APP_STORE + "genicon-asset-resizer/id6746290386?mt=12" },
+  ];
+  // social / profile apps — page 2
+  const SOCIAL_APPS = [
     { name: "Pexels",        icon: "pexels.jpg",       url: "https://www.pexels.com/@logan/" },
     { name: "Pixabay",       icon: "pixabay.jpg",      url: "https://pixabay.com/users/deltax-music" },
     { name: "Unsplash",      icon: "unsplash.jpg",     url: "https://unsplash.com/@loganvoss" },
@@ -124,21 +128,20 @@
   }
 
   function buildHome() {
-    const pool = shuffle(APPS.filter((a) => !a.pin));
-    const anima = APPS.find((a) => a.pin);
-
-    // Page 1: 16 apps (rows 1–4), Anima pinned top-right (slot 3), widget rows 5–6
+    // Page 1: my apps — Anima pinned top-right (slot 3), rest shuffled; reminder widget rows 5–6
+    const mine = shuffle(MY_APPS.filter((a) => !a.pin));
+    const anima = MY_APPS.find((a) => a.pin);
     const p1 = document.createElement("div");
     p1.className = "page";
-    const first16 = [...pool.slice(0, 3), anima, ...pool.slice(3, 15)];
-    first16.forEach((a) => p1.appendChild(appEl(a)));
+    const pageOne = [...mine.slice(0, 3), anima, ...mine.slice(3)];
+    pageOne.forEach((a) => p1.appendChild(appEl(a)));
     p1.appendChild(widgetCalendar());
 
-    // Page 2: music widget (2x2) + remaining apps
+    // Page 2: music widget + social apps (shuffled)
     const p2 = document.createElement("div");
     p2.className = "page";
     p2.appendChild(widgetMusic());
-    pool.slice(15).forEach((a) => p2.appendChild(appEl(a)));
+    shuffle(SOCIAL_APPS.slice()).forEach((a) => p2.appendChild(appEl(a)));
 
     track.append(p1, p2);
     pageEls = [p1, p2];
@@ -310,10 +313,17 @@
     setTimeout(() => lock.classList.add("hidden"), 700);
   }
 
-  /* ————— Lock camera button ————— */
+  /* ————— Lock camera + flashlight buttons ————— */
   $("#lockCamera").addEventListener("click", (e) => {
     e.stopPropagation();
     window.open(APP_STORE + "anima-camera/id6751657083", "_blank", "noopener");
+  });
+  const torch = $("#lockTorch");
+  const flash = $("#flashOverlay");
+  torch.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const on = torch.classList.toggle("on");
+    flash.classList.toggle("on", on);
   });
 
   /* ————— Context menu suppression (immersion) ————— */

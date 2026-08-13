@@ -34,7 +34,7 @@ body {
 /* ————— Phone + bezel (desktop) ————— */
 .phone {
   position: relative;
-  aspect-ratio: 1470 / 3000;
+  aspect-ratio: 501 / 1024;
   height: min(94vh, 140vw);
   height: min(94dvh, 140vw);
 }
@@ -44,7 +44,7 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 10;
+  z-index: 1;
   pointer-events: none;
   filter:
     drop-shadow(0 2.2vh 4.5vh rgba(25,15,60,.20))
@@ -53,15 +53,14 @@ body {
 
 .screen {
   position: absolute;
-  left: 2.789%;
-  top: 1.0667%;
-  width: 94.354%;
-  height: 97.833%;
-  z-index: 1;
+  left: 3.197%;
+  top: 2.148%;
+  width: 93.61%;
+  height: 96.58%;
+  z-index: 2;
   overflow: hidden;
-  background: #000;
   container-type: size;
-  border-radius: 18% / 8.5%;
+  border-radius: 14.9% / 7.1%;
 }
 
 /* ————— Mobile: no bezel, fullscreen ————— */
@@ -74,32 +73,25 @@ body.mobile .screen {
   height: 100%;
   border-radius: 0;
 }
-body.mobile .island { display: none; }
 
 /* ————— Wallpaper ————— */
-.wallpaper {
-  position: absolute;
-  inset: 0;
+/* desktop: baked into the iphone asset */
+.wallpaper { display: none; }
+/* mobile: fixed full-canvas layer that extends under browser chrome */
+body.mobile .wallpaper {
+  display: block;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  height: 100lvh;
   background: url("assets/wallpaper.jpg") center / cover no-repeat #191921;
-}
-
-/* ————— Dynamic Island ————— */
-.island {
-  position: absolute;
-  top: 0.75cqh;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 30cqw;
-  height: 3.5cqh;
-  background: #000;
-  border-radius: 10cqw;
-  z-index: 40;
-  pointer-events: none;
 }
 
 /* ————— Status bar ————— */
 .statusbar {
-  height: 6.2cqh;
+  height: 6.9cqh;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -189,9 +181,9 @@ body.mobile .island { display: none; }
 .lock.hidden { display: none; }
 .lock.dragging { transition: none; }
 
-.lock-top { text-align: center; margin-top: 9.5cqh; }
+.lock-top { text-align: center; margin-top: 10.5cqh; }
 .lock-date {
-  font-size: 5.2cqw;
+  font-size: 6.1cqw;
   font-weight: 600;
   color: #fff;
   text-shadow: 0 1px 6px rgba(8,6,24,.35);
@@ -200,7 +192,7 @@ body.mobile .island { display: none; }
   transition: opacity .7s ease .1s, transform .7s var(--ease-out) .1s;
 }
 .lock-time {
-  font-size: 20.5cqw;
+  font-size: 24cqw;
   font-weight: 700;
   color: #fff;
   letter-spacing: -.03em;
@@ -292,6 +284,20 @@ body.mobile .island { display: none; }
 }
 .lock-round svg { width: 62%; height: 62%; }
 .lock-round:active { transform: scale(.88); }
+.lock-round.on { background: rgba(255,255,255,.92); }
+.lock-round.on svg use { filter: brightness(0); }
+
+/* flashlight beam overlay */
+.flash-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 35;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.flash-overlay.on { opacity: .96; }
 
 .swipe-zone { text-align: center; padding-bottom: 1.2cqh; margin-top: 2.5cqh; }
 .swipe-hint {
@@ -431,37 +437,37 @@ body.mobile .island { display: none; }
   backdrop-filter: blur(22px) saturate(1.7);
   display: flex;
   align-items: center;
-  padding: 0 5cqw;
-  gap: 4.2cqw;
+  padding: 0 5.5cqw;
+  gap: 5cqw;
   cursor: default;
 }
 .wg-cal-badge {
   flex: none;
-  width: 11.5cqw;
+  width: 15.5cqw;
   aspect-ratio: 1;
   background: #fff;
-  border-radius: 3cqw;
-  box-shadow: 0 .4cqh 1.1cqh rgba(35,25,80,.12);
+  border-radius: 3.6cqw;
+  box-shadow: 0 .5cqh 1.4cqh rgba(35,25,80,.14);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-.wg-cal-badge-mon { font-size: 2.6cqw; font-weight: 700; color: var(--red); letter-spacing: .07em; line-height: 1; }
-.wg-cal-badge-day { font-size: 6.6cqw; font-weight: 500; color: var(--ink); line-height: 1.04; }
-.wg-cal-right { min-width: 0; padding-right: 12cqw; }
-.wg-cal-kicker { font-size: 2.9cqw; font-weight: 600; color: var(--red); letter-spacing: .05em; text-transform: uppercase; }
-.wg-cal-name { font-size: 4.4cqw; font-weight: 700; margin-top: .5cqh; }
-.wg-cal-meta { font-size: 3.3cqw; color: var(--ink-soft); margin-top: .4cqh; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wg-cal-badge-mon { font-size: 3.3cqw; font-weight: 700; color: var(--red); letter-spacing: .07em; line-height: 1; }
+.wg-cal-badge-day { font-size: 8.8cqw; font-weight: 500; color: var(--ink); line-height: 1.04; }
+.wg-cal-right { min-width: 0; padding-right: 13cqw; }
+.wg-cal-kicker { font-size: 3.5cqw; font-weight: 600; color: var(--red); letter-spacing: .05em; text-transform: uppercase; }
+.wg-cal-name { font-size: 5.6cqw; font-weight: 700; margin-top: .6cqh; letter-spacing: -.01em; }
+.wg-cal-meta { font-size: 4cqw; color: var(--ink-soft); margin-top: .5cqh; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .wg-cal-pill {
   position: absolute;
-  top: 1.7cqh;
-  right: 4cqw;
-  font-size: 2.9cqw;
+  top: 1.9cqh;
+  right: 4.2cqw;
+  font-size: 3.3cqw;
   font-weight: 600;
   color: var(--red);
   background: rgba(250,45,72,.12);
-  padding: .55cqh 2.6cqw;
+  padding: .6cqh 2.8cqw;
   border-radius: 3cqw;
 }
 
@@ -471,12 +477,13 @@ body.mobile .island { display: none; }
   color: #fff;
   display: flex;
   flex-direction: column;
-  padding: 3.6cqw;
+  justify-content: flex-end;
+  padding: 3.4cqw;
 }
-.wg-music svg { width: 8.5cqw; height: 8.5cqw; }
-.wg-music .wg-m-label { font-size: 2.8cqw; font-weight: 600; letter-spacing: .06em; opacity: .85; text-transform: uppercase; margin-top: auto; }
-.wg-music .wg-m-name { font-size: 4.6cqw; font-weight: 700; line-height: 1.1; }
-.wg-music .wg-m-sub { font-size: 3.1cqw; opacity: .85; }
+.wg-music svg { width: 7.2cqw; height: 7.2cqw; margin-bottom: auto; }
+.wg-music .wg-m-label { font-size: 2.6cqw; font-weight: 600; letter-spacing: .06em; opacity: .85; text-transform: uppercase; }
+.wg-music .wg-m-name { font-size: 4.3cqw; font-weight: 700; line-height: 1.12; margin-top: .3cqh; }
+.wg-music .wg-m-sub { font-size: 2.9cqw; opacity: .85; margin-top: .1cqh; }
 
 /* page dots */
 .dots {
@@ -519,7 +526,7 @@ body.mobile .island { display: none; }
 
 /* ————— Mobile tweaks ————— */
 body.mobile {
-  background: url("assets/wallpaper.jpg") center / cover no-repeat #191921;
+  background: #191921;
 }
 body.mobile .statusbar { display: none; }
 body.mobile .home {
