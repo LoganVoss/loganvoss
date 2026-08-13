@@ -23,6 +23,8 @@
     { name: "Exif Hunter",   icon: "exifhunter.png",   url: APP_STORE + "exif-hunter/id6747992699?mt=12" },
     { name: "Virtual Snow",  icon: "virtualsnow.png",  url: APP_STORE + "virtual-snow/id6747272596?mt=12" },
     { name: "Gen Icon",      icon: "genicon.png",      url: APP_STORE + "genicon-asset-resizer/id6746290386?mt=12" },
+    { name: "Vossy",         icon: "vossy.png",        url: APP_STORE + "vossy/id6745646180?mt=12" },
+    { name: "Jetz",          icon: "jetz.png",         url: APP_STORE + "jetz/id6745764555?mt=12" },
   ];
   // Social / profile apps — page 1
   const SOCIAL_APPS = [
@@ -96,7 +98,7 @@
     b.href = DEV_DAY_URL;
     b.target = "_blank";
     b.rel = "noopener";
-    b.setAttribute("aria-label", "Reminder — OpenAI Dev Day, September 29, San Francisco");
+    b.setAttribute("aria-label", "Reminder — OpenAI DevDay, September 29, San Francisco");
     b.innerHTML = `
       <span class="wg-cal-badge">
         <span class="wg-cal-badge-mon">SEP</span>
@@ -104,7 +106,7 @@
       </span>
       <span class="wg-cal-right">
         <span class="wg-cal-kicker">Reminder</span>
-        <span class="wg-cal-name" style="display:block">OpenAI Dev Day</span>
+        <span class="wg-cal-name" style="display:block">OpenAI DevDay</span>
         <span class="wg-cal-meta">Tuesday</span>
         <span class="wg-cal-meta">San Francisco, CA</span>
       </span>
@@ -150,7 +152,7 @@
       "Fluorescent", "Vibey",
       "Orbital Pursuit", "Bazoomba", "Gen Icon", "Exif Hunter",
       "Virtual Snow", "Life", "Lyric Video", "Library",
-      "Boltz",
+      "Boltz", "Vossy", "Jetz",
     ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
 
     track.append(p1, p2);

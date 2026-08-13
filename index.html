@@ -6,11 +6,13 @@
 <title>Logan Voss</title>
 <meta name="description" content="Logan Voss is an artist, designer, and musician in Los Angeles, California. View portfolio.">
 <meta name="theme-color" content="#c8d9f6">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#c8d9f6">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#c8d9f6">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Logan Voss">
 <meta property="og:title" content="Logan Voss">
 <meta property="og:description" content="Logan Voss is an artist, designer, and musician in Los Angeles, California. View portfolio.">
@@ -31,7 +33,10 @@
     document.documentElement.classList.add("mobile");
   }
 </script>
-<link rel="stylesheet" href="styles.css?v=6">
+<style>
+  html { background-color: #c8d9f6; }
+</style>
+<link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
 
@@ -158,7 +163,7 @@
             <span class="notif-icon cal-mini"><span class="cal-mini-dow">SEP</span><span class="cal-mini-day">29</span></span>
             <span class="notif-body">
               <span class="notif-top"><span class="notif-app">CALENDAR</span><span class="notif-when" id="calCountNotif">in 48d</span></span>
-              <span class="notif-title">OpenAI Dev Day</span>
+              <span class="notif-title">OpenAI DevDay</span>
               <span class="notif-text">San Francisco, California</span>
             </span>
           </button>

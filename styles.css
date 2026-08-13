@@ -70,7 +70,11 @@ html.mobile body {
   height: 100%;
   min-height: 100%;
   overflow: visible;
-  background: #c8d9f6 url("assets/wallpaper-hd.jpg") center / cover no-repeat;
+  background-color: #c8d9f6;
+  background-image: url("assets/wallpaper-hd.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 html.mobile .bezel,
