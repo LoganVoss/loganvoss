@@ -6,6 +6,7 @@
 <title>Logan Voss</title>
 <meta name="description" content="Logan Voss is an artist, designer, and musician in Los Angeles, California. View portfolio.">
 <meta name="theme-color" content="#c8d9f6">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#c8d9f6">
 <meta name="color-scheme" content="light">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -30,11 +31,13 @@
     document.documentElement.classList.add("mobile");
   }
 </script>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
 
 <img class="mobile-wallpaper" src="assets/wallpaper-hd.jpg" alt="" aria-hidden="true" draggable="false">
+<div class="edge-tint edge-tint-top" aria-hidden="true"></div>
+<div class="edge-tint edge-tint-bottom" aria-hidden="true"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-apple" viewBox="0 0 24 24">
