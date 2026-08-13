@@ -64,31 +64,16 @@ body {
   border-radius: 16.4% / 7.7%;
 }
 
-/* ————— Mobile: wallpaper is the document canvas, not a box ————— */
+/* ————— Mobile: one native-size wallpaper, no tiling, no box ————— */
 html.mobile {
   height: auto;
   min-height: 100lvh;
   overflow: visible;
   background-color: #c8d9f6;
   background-image: url("assets/wallpaper-hd.jpg");
-  background-position: center center;
-  background-size: cover;
+  background-position: center top;
+  background-size: auto;
   background-repeat: no-repeat;
-}
-html.mobile::before {
-  content: "";
-  position: fixed;
-  top: -50vh;
-  right: 0;
-  bottom: -50vh;
-  left: 0;
-  background-color: #c8d9f6;
-  background-image: url("assets/wallpaper-hd.jpg");
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  z-index: 0;
 }
 html.mobile body {
   width: 100%;
