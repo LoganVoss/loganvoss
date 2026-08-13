@@ -65,7 +65,7 @@ body {
 }
 
 /* ————— Mobile: no bezel, fullscreen ————— */
-body.mobile .stage { display: block; min-height: 100dvh; }
+body.mobile .stage { display: block; min-height: 100dvh; background: none; }
 body.mobile .phone { position: fixed; inset: 0; aspect-ratio: auto; height: auto; }
 body.mobile .bezel { display: none; }
 body.mobile .screen {
@@ -83,13 +83,25 @@ body.mobile .island { display: none; }
   inset: 0;
   background: url("assets/wallpaper.jpg") center / cover no-repeat #dfe9fa;
 }
-/* mobile: fixed full-canvas layer that extends fully under browser chrome */
-body.mobile .wallpaper {
+/* mobile: dedicated fixed layer, direct child of body so nothing can trap or
+   clip it; 100lvh keeps it extended under the browser chrome at all times */
+.mobile-bg { display: none; }
+html.mobile,
+body.mobile {
+  background: url("assets/wallpaper.jpg") center / cover no-repeat #c8d9f6;
+}
+body.mobile .mobile-bg {
+  display: block;
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 100vh;
   height: 100lvh;
+  background: url("assets/wallpaper.jpg") center / cover no-repeat #c8d9f6;
+  z-index: -1;
 }
+body.mobile .wallpaper { display: none; }
 
 /* ————— Dynamic Island ————— */
 .island {
@@ -468,8 +480,9 @@ body.mobile .wallpaper {
 .wg-cal-badge-day { font-size: 8.8cqw; font-weight: 500; color: var(--ink); line-height: 1.04; }
 .wg-cal-right { min-width: 0; padding-right: 13cqw; }
 .wg-cal-kicker { font-size: 3.5cqw; font-weight: 600; color: var(--red); letter-spacing: .05em; text-transform: uppercase; }
-.wg-cal-name { font-size: 5.6cqw; font-weight: 700; margin-top: .6cqh; letter-spacing: -.01em; }
-.wg-cal-meta { font-size: 4cqw; color: var(--ink-soft); margin-top: .5cqh; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wg-cal-name { font-size: 5.4cqw; font-weight: 700; margin-top: .5cqh; letter-spacing: -.01em; }
+.wg-cal-meta { display: block; font-size: 3.8cqw; line-height: 1.3; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wg-cal-name + .wg-cal-meta { margin-top: .5cqh; }
 .wg-cal-pill {
   position: absolute;
   top: 1.9cqh;
@@ -535,9 +548,6 @@ body.mobile .wallpaper {
 .home > .home-indicator { margin-bottom: 1.1cqh; flex: none; }
 
 /* ————— Mobile tweaks ————— */
-body.mobile {
-  background: url("assets/wallpaper.jpg") center / cover no-repeat #dfe9fa;
-}
 body.mobile .statusbar { display: none; }
 body.mobile .home {
   padding-top: env(safe-area-inset-top, 0px);

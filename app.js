@@ -43,9 +43,10 @@
   const isMobile =
     (matchMedia("(pointer: coarse)").matches && innerWidth < 1024) ||
     innerWidth < 720;
-  if (isMobile) body.classList.add("mobile");
-  if (new URLSearchParams(location.search).get("frame") === "1") body.classList.remove("mobile");
-  if (new URLSearchParams(location.search).get("frame") === "0") body.classList.add("mobile");
+  const root = document.documentElement;
+  if (isMobile) { body.classList.add("mobile"); root.classList.add("mobile"); }
+  if (new URLSearchParams(location.search).get("frame") === "1") { body.classList.remove("mobile"); root.classList.remove("mobile"); }
+  if (new URLSearchParams(location.search).get("frame") === "0") { body.classList.add("mobile"); root.classList.add("mobile"); }
 
   /* ————— Clock ————— */
   const now = () => new Date();
@@ -106,7 +107,8 @@
       <span class="wg-cal-right">
         <span class="wg-cal-kicker">Reminder</span>
         <span class="wg-cal-name" style="display:block">OpenAI Dev Day</span>
-        <span class="wg-cal-meta" style="display:block">Tuesday &middot; San Francisco, California</span>
+        <span class="wg-cal-meta">Tuesday</span>
+        <span class="wg-cal-meta">San Francisco, California</span>
       </span>
       <span class="wg-cal-pill" id="wgCalPill">48 days away</span>`;
     return b;
