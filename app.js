@@ -8,23 +8,23 @@
 
   /* ————— Data ————— */
   const APP_STORE = "https://apps.apple.com/us/app/";
-  // Logan's own apps — page 1 (Anima pinned top-right)
+  // Logan's own apps — page 2
   const MY_APPS = [
-    { name: "Anima Camera",  icon: "anima.jpg",        url: APP_STORE + "anima-camera/id6751657083", pin: true },
+    { name: "Anima Camera",  icon: "anima.jpg",        url: APP_STORE + "anima-camera/id6751657083" },
     { name: "Bazoomba",      icon: "bazoomba.jpg",     url: APP_STORE + "bazoomba/id6759260189" },
     { name: "HyperVid",      icon: "hypervid.jpg",     url: APP_STORE + "hypervid/id6757205904" },
     { name: "Boltz",         icon: "boltz.jpg",        url: APP_STORE + "boltz-strobe-art/id6757131249" },
-    { name: "Life Calculator", icon: "lifecalc.jpg",   url: APP_STORE + "life-calculator-self-improve/id6748923209" },
+    { name: "Life",          icon: "lifecalc.jpg",      url: APP_STORE + "life-calculator-self-improve/id6748923209" },
     { name: "Orbital Pursuit", icon: "orbital.jpg",    url: APP_STORE + "orbital-pursuit/id6748704830" },
     { name: "Library",       icon: "library.jpg",      url: APP_STORE + "library-calculator/id6746132040" },
     { name: "Fluorescent",   icon: "fluorescent.png",  url: APP_STORE + "fluorescent/id6781411670?mt=12" },
     { name: "Lyric Video",   icon: "lyricvideo.png",   url: APP_STORE + "lyric-video/id6761279213?mt=12" },
     { name: "Vibey",         icon: "vibey.png",        url: APP_STORE + "vibey-animated-desktop/id6757448418?mt=12" },
-    { name: "EXIF Hunter",   icon: "exifhunter.png",   url: APP_STORE + "exif-hunter/id6747992699?mt=12" },
+    { name: "Exif Hunter",   icon: "exifhunter.png",   url: APP_STORE + "exif-hunter/id6747992699?mt=12" },
     { name: "Virtual Snow",  icon: "virtualsnow.png",  url: APP_STORE + "virtual-snow/id6747272596?mt=12" },
-    { name: "GenIcon",       icon: "genicon.png",      url: APP_STORE + "genicon-asset-resizer/id6746290386?mt=12" },
+    { name: "Gen Icon",      icon: "genicon.png",      url: APP_STORE + "genicon-asset-resizer/id6746290386?mt=12" },
   ];
-  // social / profile apps — page 2
+  // Social / profile apps — page 1
   const SOCIAL_APPS = [
     { name: "Pexels",        icon: "pexels.jpg",       url: "https://www.pexels.com/@logan/" },
     { name: "Pixabay",       icon: "pixabay.jpg",      url: "https://pixabay.com/users/deltax-music" },
@@ -38,6 +38,7 @@
   ];
 
   const DEV_DAY = new Date(2026, 8, 29, 10, 0, 0); // Sep 29, 2026
+  const DEV_DAY_URL = "https://devday.openai.com";
 
   /* ————— Mobile detection ————— */
   const isMobile =
@@ -62,7 +63,9 @@
     $("#sbTime").textContent = fmtTime(d);
     $("#lockTime").textContent = fmtTime(d);
     $("#lockDate").textContent = fmtDate(d);
-    const days = Math.ceil((DEV_DAY.setHours(0,0,0,0) - new Date(d).setHours(0,0,0,0)) / 864e5);
+    const eventDay = new Date(DEV_DAY.getFullYear(), DEV_DAY.getMonth(), DEV_DAY.getDate());
+    const today = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const days = Math.ceil((eventDay - today) / 864e5);
     const label = days > 0 ? "in " + days + "d" : days === 0 ? "today" : "Sep 29";
     const cn = $("#calCountNotif"); if (cn) cn.textContent = label;
     const wp = $("#wgCalPill"); if (wp) wp.textContent = days > 0 ? days + " days away" : days === 0 ? "Today!" : "Sep 29, 2026";
@@ -76,14 +79,6 @@
   let pageCount = 1;
   let curPage = 0;
 
-  function shuffle(a) {
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  }
-
   function appEl(app) {
     const a = document.createElement("a");
     a.className = "app";
@@ -96,8 +91,11 @@
   }
 
   function widgetCalendar() {
-    const b = document.createElement("div");
+    const b = document.createElement("a");
     b.className = "widget w4 wg-cal";
+    b.href = DEV_DAY_URL;
+    b.target = "_blank";
+    b.rel = "noopener";
     b.setAttribute("aria-label", "Reminder — OpenAI Dev Day, September 29, San Francisco");
     b.innerHTML = `
       <span class="wg-cal-badge">
@@ -108,7 +106,7 @@
         <span class="wg-cal-kicker">Reminder</span>
         <span class="wg-cal-name" style="display:block">OpenAI Dev Day</span>
         <span class="wg-cal-meta">Tuesday</span>
-        <span class="wg-cal-meta">San Francisco, California</span>
+        <span class="wg-cal-meta">San Francisco, CA</span>
       </span>
       <span class="wg-cal-pill" id="wgCalPill">48 days away</span>`;
     return b;
@@ -122,28 +120,38 @@
     a.rel = "noopener";
     a.setAttribute("aria-label", "DeltaX on Apple Music");
     a.innerHTML = `
-      <svg viewBox="0 0 60 60"><use href="#i-note"/></svg>
-      <span class="wg-m-label">Now Playing</span>
-      <span class="wg-m-name">DeltaX</span>
-      <span class="wg-m-sub">Apple Music</span>`;
+      <img class="wg-m-cover" src="assets/weightless.jpg" alt="" draggable="false">
+      <span class="wg-m-shade"></span>
+      <span class="wg-m-copy">
+        <span class="wg-m-label">Now Playing</span>
+        <span class="wg-m-name">Weightless</span>
+        <span class="wg-m-sub">DeltaX</span>
+      </span>`;
     return a;
   }
 
   function buildHome() {
-    // Page 1: reminder widget up top, then all social apps (shuffled)
+    // Page 1: reminder, then Logan's requested social layout.
     const p1 = document.createElement("div");
     p1.className = "page";
     p1.appendChild(widgetCalendar());
-    shuffle(SOCIAL_APPS.slice()).forEach((a) => p1.appendChild(appEl(a)));
+    [
+      "Pexels", "Unsplash", "Pixabay", "GitHub",
+      "Instagram", "Threads", "X", "YouTube",
+      "Spotify",
+    ].forEach((name) => p1.appendChild(appEl(SOCIAL_APPS.find((app) => app.name === name))));
 
-    // Page 2: music widget top-left, then my apps — Anima pinned top-right
-    const mine = shuffle(MY_APPS.filter((a) => !a.pin));
-    const anima = MY_APPS.find((a) => a.pin);
+    // Page 2: square music widget with two app columns beside it.
     const p2 = document.createElement("div");
     p2.className = "page";
     p2.appendChild(widgetMusic());
-    const pageTwo = [mine[0], anima, ...mine.slice(1)];
-    pageTwo.forEach((a) => p2.appendChild(appEl(a)));
+    [
+      "HyperVid", "Anima Camera",
+      "Fluorescent", "Vibey",
+      "Orbital Pursuit", "Gen Icon", "Bazoomba", "Exif Hunter",
+      "Virtual Snow", "Life", "Library", "Lyric Video",
+      "Boltz",
+    ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
 
     track.append(p1, p2);
     pageEls = [p1, p2];
@@ -304,7 +312,10 @@
 
   $("#swipeHint").addEventListener("click", () => !unlocked && unlock());
   $("#notifMsg").addEventListener("click", () => !unlocked && unlock());
-  $("#notifCal").addEventListener("click", () => !unlocked && unlock());
+  $("#notifCal").addEventListener("click", () => {
+    window.open(DEV_DAY_URL, "_blank", "noopener");
+    if (!unlocked) unlock();
+  });
 
   function unlock() {
     if (unlocked) return;

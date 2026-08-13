@@ -65,8 +65,8 @@ body {
 }
 
 /* ————— Mobile: no bezel, fullscreen ————— */
-body.mobile .stage { display: block; min-height: 100dvh; background: none; }
-body.mobile .phone { position: fixed; inset: 0; aspect-ratio: auto; height: auto; }
+body.mobile .stage { display: block; min-height: 100dvh; background: none; position: relative; z-index: 1; }
+body.mobile .phone { position: fixed; inset: 0; aspect-ratio: auto; height: auto; z-index: 1; }
 body.mobile .bezel { display: none; }
 body.mobile .screen {
   inset: 0;
@@ -81,25 +81,29 @@ body.mobile .island { display: none; }
 .wallpaper {
   position: absolute;
   inset: 0;
-  background: url("assets/wallpaper.jpg") center / cover no-repeat #dfe9fa;
+  background: url("assets/wallpaper-original.jpg") center / cover no-repeat #dfe9fa;
 }
-/* mobile: dedicated fixed layer, direct child of body so nothing can trap or
-   clip it; 100lvh keeps it extended under the browser chrome at all times */
+/* Mobile wallpaper overscans the layout viewport so iOS never exposes its
+   canvas at either safe-area edge while Safari's chrome expands/collapses. */
 .mobile-bg { display: none; }
 html.mobile,
 body.mobile {
-  background: url("assets/wallpaper.jpg") center / cover no-repeat #c8d9f6;
+  width: 100%;
+  min-height: 100%;
+  min-height: 100lvh;
+  background: url("assets/wallpaper-original.jpg") center / cover no-repeat #c8d9f6;
 }
 body.mobile .mobile-bg {
   display: block;
   position: fixed;
-  top: 0;
+  top: -120px;
+  bottom: -120px;
   left: 0;
   right: 0;
-  height: 100vh;
-  height: 100lvh;
-  background: url("assets/wallpaper.jpg") center / cover no-repeat #c8d9f6;
-  z-index: -1;
+  min-height: calc(100lvh + 240px);
+  background: url("assets/wallpaper-original.jpg") center / cover no-repeat #c8d9f6;
+  pointer-events: none;
+  z-index: 0;
 }
 body.mobile .wallpaper { display: none; }
 
@@ -134,7 +138,7 @@ body.mobile .wallpaper { display: none; }
 .statusbar { color: #16233f; }
 .sb-ic { width: 5.4cqw; height: 3.4cqw; fill: #16233f; }
 .sb-ic.wifi { width: 4.6cqw; }
-.sb-ic.batt { width: 6.6cqw; }
+.sb-ic.batt { width: 7cqw; }
 .sb-ic [stroke-width] { stroke: #16233f; }
 .sb-ic path[stroke-width], .sb-ic rect[stroke-width] { stroke: #16233f; }
 
@@ -209,21 +213,24 @@ body.mobile .wallpaper { display: none; }
 .lock.hidden { display: none; }
 .lock.dragging { transition: none; }
 
-.lock-top { text-align: center; margin-top: 10.5cqh; }
+.lock-top { text-align: center; margin-top: 5.2cqh; }
 .lock-date {
-  font-size: 6.1cqw;
-  font-weight: 600;
+  font-size: 5.35cqw;
+  font-weight: 650;
   color: #16233f;
+  letter-spacing: -.015em;
+  text-shadow: 0 1px 0 rgba(255,255,255,.52), 0 .45cqh 1.5cqh rgba(73,91,139,.16);
   opacity: 0;
   transform: translateY(-12px);
   transition: opacity .7s ease .1s, transform .7s var(--ease-out) .1s;
 }
 .lock-time {
-  font-size: 24cqw;
-  font-weight: 700;
+  font-size: 21.5cqw;
+  font-weight: 720;
   color: #16233f;
-  letter-spacing: -.03em;
-  line-height: 1.04;
+  letter-spacing: -.045em;
+  line-height: 1;
+  text-shadow: 0 1px 0 rgba(255,255,255,.56), 0 .6cqh 2cqh rgba(73,91,139,.2);
   font-variant-numeric: tabular-nums;
   opacity: 0;
   transform: translateY(-14px);
@@ -462,7 +469,7 @@ body.mobile .wallpaper { display: none; }
   align-items: center;
   padding: 0 5.5cqw;
   gap: 5cqw;
-  cursor: default;
+  cursor: pointer;
 }
 .wg-cal-badge {
   flex: none;
@@ -495,19 +502,40 @@ body.mobile .wallpaper { display: none; }
   border-radius: 3cqw;
 }
 
-/* music widget (page 2) */
+/* square album-art music widget (page 2) */
 .wg-music {
-  background: linear-gradient(135deg, #FC3C44 0%, #C724B1 100%);
+  position: relative;
+  align-self: start;
+  aspect-ratio: 1;
+  height: auto;
+  background: #5f8f9e;
   color: #fff;
+  padding: 0;
+}
+.wg-m-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wg-m-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10,24,42,.03) 35%, rgba(7,20,38,.76) 100%);
+}
+.wg-m-copy {
+  position: absolute;
+  left: 3.4cqw;
+  right: 3.4cqw;
+  bottom: 2.6cqw;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 3.4cqw;
+  text-shadow: 0 1px 5px rgba(0,0,0,.42);
 }
-.wg-music svg { width: 7.2cqw; height: 7.2cqw; margin-bottom: auto; }
-.wg-music .wg-m-label { font-size: 2.6cqw; font-weight: 600; letter-spacing: .06em; opacity: .85; text-transform: uppercase; }
-.wg-music .wg-m-name { font-size: 4.3cqw; font-weight: 700; line-height: 1.12; margin-top: .3cqh; }
-.wg-music .wg-m-sub { font-size: 2.9cqw; opacity: .85; margin-top: .1cqh; }
+.wg-music .wg-m-label { font-size: 2.45cqw; font-weight: 650; letter-spacing: .07em; opacity: .88; text-transform: uppercase; }
+.wg-music .wg-m-name { font-size: 4.25cqw; font-weight: 750; line-height: 1.08; margin-top: .3cqh; }
+.wg-music .wg-m-sub { font-size: 2.9cqw; font-weight: 550; opacity: .9; margin-top: .15cqh; }
 
 /* page dots */
 .dots {
@@ -554,7 +582,7 @@ body.mobile .home {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 body.mobile .lock { padding-top: calc(env(safe-area-inset-top, 0px) + 1.5cqh); }
-body.mobile .lock-top { margin-top: 8.5cqh; }
+body.mobile .lock-top { margin-top: 4.5cqh; }
 body.mobile .home > .home-indicator,
 body.mobile .swipe-zone .home-indicator { display: none; }
 body.mobile .swipe-zone { padding-bottom: calc(1cqh + env(safe-area-inset-bottom, 0px)); }
