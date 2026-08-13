@@ -64,20 +64,38 @@ body {
   border-radius: 16.4% / 7.7%;
 }
 
-/* ————— Mobile: wallpaper has no bounds ————— */
-html.mobile,
+/* ————— Mobile: wallpaper is the document canvas, not a box ————— */
+html.mobile {
+  height: auto;
+  min-height: 100lvh;
+  overflow: visible;
+  background-color: #c8d9f6;
+  background-image: url("assets/wallpaper-hd.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+html.mobile::before {
+  content: "";
+  position: fixed;
+  top: -50vh;
+  right: 0;
+  bottom: -50vh;
+  left: 0;
+  background-color: #c8d9f6;
+  background-image: url("assets/wallpaper-hd.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
 html.mobile body {
   width: 100%;
   height: auto;
-  min-height: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
   min-height: 100lvh;
-  background-color: #c8d9f6;
-  background-image: url("assets/wallpaper-hd.jpg");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  overflow: visible;
+  background: transparent;
 }
 
 html.mobile .bezel,
@@ -88,35 +106,22 @@ html.mobile .phone,
 html.mobile .screen {
   position: fixed;
   left: 0;
-  top: 0;
   right: 0;
-  bottom: 0;
+  top: 0;
   width: 100%;
-  height: 100%;
+  height: 100lvh;
   margin: 0;
   aspect-ratio: auto;
   border-radius: 0;
   filter: none;
-  overflow: hidden;
+  background: transparent;
   z-index: 1;
-  background-color: #c8d9f6;
-  background-image: url("assets/wallpaper-hd.jpg");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
 }
+html.mobile .stage { overflow: visible; }
+html.mobile .phone { overflow: hidden; }
+html.mobile .screen { overflow: hidden; }
 
-html.mobile .wallpaper {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #c8d9f6;
-  background-image: url("assets/wallpaper-hd.jpg");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
+html.mobile .wallpaper { display: none; }
 
 /* ————— Wallpaper (desktop, inside the bezel) ————— */
 .wallpaper {
