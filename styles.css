@@ -64,60 +64,21 @@ body {
   border-radius: 16.4% / 7.7%;
 }
 
-/* ————— Mobile: abandon the bezel shell entirely —————
-   html.mobile is set in <head> before first paint.
-
-   Killing the black bars requires owning every surface iOS Safari looks
-   at when it paints the status-bar and toolbar regions:
-   1. The root canvas: the wallpaper is painted as the <html> background,
-      which is the one layer Safari extends across the entire device
-      canvas, including the safe areas outside the layout viewport.
-   2. The page itself: a fixed <img> bleeds 80px past the top and bottom
-      of the viewport so Safari's translucent chrome always has real
-      wallpaper pixels behind it, in every toolbar state.
-   3. Edge sampling: Safari 26 tints its chrome by sampling fixed
-      elements that touch the viewport edges; the .edge-tint strips give
-      it wallpaper colors to sample instead of a transparent fallback
-      (which renders as black in dark mode). */
-.mobile-wallpaper { display: none; }
-
-html.mobile {
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
-  background: #c8d9f6 url("assets/wallpaper-hd.jpg") center / cover no-repeat;
-}
+/* ————— Mobile: wallpaper has no bounds ————— */
+html.mobile,
 html.mobile body {
   width: 100%;
-  height: 100%;
+  height: auto;
   min-height: 100%;
-  background: transparent;
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: 100lvh;
+  background-color: #c8d9f6;
+  background-image: url("assets/wallpaper-hd.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
-
-html.mobile .mobile-wallpaper {
-  display: block;
-  position: fixed;
-  left: 0;
-  top: calc(-1 * env(safe-area-inset-top, 0px) - 80px);
-  width: 100vw;
-  height: calc(100lvh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px) + 160px);
-  object-fit: cover;
-  object-position: center;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.edge-tint { display: none; }
-html.mobile .edge-tint {
-  display: block;
-  position: fixed;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-  z-index: 2147483647;
-}
-html.mobile .edge-tint-top { top: 0; height: 3px; background-color: #d9e0f2; }
-html.mobile .edge-tint-bottom { bottom: -8px; min-height: 12px; background-color: #c8d9f6; }
 
 html.mobile .bezel,
 html.mobile .island { display: none; }
@@ -135,13 +96,27 @@ html.mobile .screen {
   margin: 0;
   aspect-ratio: auto;
   border-radius: 0;
-  background: transparent;
   filter: none;
   overflow: hidden;
   z-index: 1;
+  background-color: #c8d9f6;
+  background-image: url("assets/wallpaper-hd.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-html.mobile .wallpaper { display: none; }
+html.mobile .wallpaper {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #c8d9f6;
+  background-image: url("assets/wallpaper-hd.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 
 /* ————— Wallpaper (desktop, inside the bezel) ————— */
 .wallpaper {
