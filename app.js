@@ -15,7 +15,7 @@
     { name: "HyperVid",      icon: "hypervid.jpg",     url: APP_STORE + "hypervid/id6757205904" },
     { name: "Boltz",         icon: "boltz.jpg",        url: APP_STORE + "boltz-strobe-art/id6757131249" },
     { name: "Life",          icon: "lifecalc.jpg",      url: APP_STORE + "life-calculator-self-improve/id6748923209" },
-    { name: "Orbital Pursuit", icon: "orbital.jpg",    url: APP_STORE + "orbital-pursuit/id6748704830" },
+    { name: "Orbital",       icon: "orbital.jpg",    url: APP_STORE + "orbital-pursuit/id6748704830" },
     { name: "Library",       icon: "library.jpg",      url: APP_STORE + "library-calculator/id6746132040" },
     { name: "Fluorescent",   icon: "fluorescent.png",  url: APP_STORE + "fluorescent/id6781411670?mt=12" },
     { name: "Lyric Video",   icon: "lyricvideo.png",   url: APP_STORE + "lyric-video/id6761279213?mt=12" },
@@ -23,7 +23,7 @@
     { name: "Exif Hunter",   icon: "exifhunter.png",   url: APP_STORE + "exif-hunter/id6747992699?mt=12" },
     { name: "Virtual Snow",  icon: "virtualsnow.png",  url: APP_STORE + "virtual-snow/id6747272596?mt=12" },
     { name: "Gen Icon",      icon: "genicon.png",      url: APP_STORE + "genicon-asset-resizer/id6746290386?mt=12" },
-    { name: "Vossy",         icon: "vossy.png",        url: APP_STORE + "vossy/id6745646180?mt=12" },
+    { name: "Notch RGB",     icon: "vossy.png",        url: APP_STORE + "vossy/id6745646180?mt=12" },
     { name: "Jetz",          icon: "jetz.png",         url: APP_STORE + "jetz/id6745764555?mt=12" },
   ];
   // Social / profile apps — page 1
@@ -150,9 +150,9 @@
     [
       "HyperVid", "Anima Camera",
       "Fluorescent", "Vibey",
-      "Orbital Pursuit", "Bazoomba", "Gen Icon", "Exif Hunter",
+      "Orbital", "Bazoomba", "Gen Icon", "Exif Hunter",
       "Virtual Snow", "Life", "Lyric Video", "Library",
-      "Boltz", "Vossy", "Jetz",
+      "Boltz", "Notch RGB", "Jetz",
     ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
 
     track.append(p1, p2);
