@@ -143,16 +143,17 @@
       "Spotify",
     ].forEach((name) => p1.appendChild(appEl(SOCIAL_APPS.find((app) => app.name === name))));
 
-    // Page 2: square music widget with two app columns beside it.
+    // Page 2: square music widget top-left; Anima stays pinned top-right.
+    // The rest are interleaved so no two white or dark icons sit side by side.
     const p2 = document.createElement("div");
     p2.className = "page";
     p2.appendChild(widgetMusic());
     [
       "HyperVid", "Anima Camera",
-      "Fluorescent", "Vibey",
-      "Orbital", "Bazoomba", "Gen Icon", "Exif Hunter",
-      "Virtual Snow", "Life", "Lyric Video", "Library",
-      "Boltz", "Notch RGB", "Jetz",
+      "Gen Icon", "Life",
+      "Boltz", "Orbital", "Library", "Fluorescent",
+      "Bazoomba", "Virtual Snow", "Notch RGB", "Vibey",
+      "Exif Hunter", "Jetz", "Lyric Video",
     ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
 
     track.append(p1, p2);
