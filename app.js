@@ -10,7 +10,7 @@
   const APP_STORE = "https://apps.apple.com/us/app/";
   // Logan's own apps — page 2
   const MY_APPS = [
-    { name: "Anima Camera",  icon: "anima.jpg",        url: APP_STORE + "anima-camera/id6751657083" },
+    { name: "Anima",           icon: "anima.jpg",        url: APP_STORE + "anima-camera/id6751657083" },
     { name: "Bazoomba",      icon: "bazoomba.jpg",     url: APP_STORE + "bazoomba/id6759260189" },
     { name: "HyperVid",      icon: "hypervid.jpg",     url: APP_STORE + "hypervid/id6757205904" },
     { name: "Boltz",         icon: "boltz.jpg",        url: APP_STORE + "boltz-strobe-art/id6757131249" },
@@ -149,7 +149,7 @@
     p2.className = "page";
     p2.appendChild(widgetMusic());
     [
-      "HyperVid", "Anima Camera",
+      "HyperVid", "Anima",
       "Gen Icon", "Life",
       "Boltz", "Orbital", "Library", "Fluorescent",
       "Bazoomba", "Virtual Snow", "Notch RGB", "Vibey",
