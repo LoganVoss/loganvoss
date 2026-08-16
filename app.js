@@ -13,12 +13,8 @@
     { name: "Anima",           icon: "anima.jpg",        url: APP_STORE + "anima-camera/id6751657083" },
     { name: "Bazoomba",      icon: "bazoomba.jpg",     url: APP_STORE + "bazoomba/id6759260189" },
     { name: "HyperVid",      icon: "hypervid.jpg",     url: APP_STORE + "hypervid/id6757205904" },
-    { name: "Boltz",         icon: "boltz.jpg",        url: APP_STORE + "boltz-strobe-art/id6757131249" },
-    { name: "Life",          icon: "lifecalc.jpg",      url: APP_STORE + "life-calculator-self-improve/id6748923209" },
     { name: "Orbital",       icon: "orbital.jpg",    url: APP_STORE + "orbital-pursuit/id6748704830" },
-    { name: "Library",       icon: "library.jpg",      url: APP_STORE + "library-calculator/id6746132040" },
     { name: "Fluorescent",   icon: "fluorescent.png",  url: APP_STORE + "fluorescent/id6781411670?mt=12" },
-    { name: "Lyric Video",   icon: "lyricvideo.png",   url: APP_STORE + "lyric-video/id6761279213?mt=12" },
     { name: "Vibey",         icon: "vibey.png",        url: APP_STORE + "vibey-animated-desktop/id6757448418?mt=12" },
     { name: "Exif Hunter",   icon: "exifhunter.png",   url: APP_STORE + "exif-hunter/id6747992699?mt=12" },
     { name: "Virtual Snow",  icon: "virtualsnow.png",  url: APP_STORE + "virtual-snow/id6747272596?mt=12" },
@@ -27,7 +23,6 @@
     { name: "Jetz",          icon: "jetz.png",         url: APP_STORE + "jetz/id6745764555?mt=12" },
     // In development — tapping shows an iOS-style "Coming soon" alert
     { name: "Shredder",      icon: "shredder.png",      comingSoon: true },
-    { name: "Slyder",        icon: "vibeslider.png",    comingSoon: true },
     { name: "Zombies",       icon: "finalsurvivor.png", comingSoon: true },
     { name: "Champagne",     icon: "champagne.png",     comingSoon: true },
   ];
@@ -42,6 +37,7 @@
     { name: "YouTube",       icon: "youtube.jpg",      url: "https://www.youtube.com/@DeltaXMusic" },
     { name: "Spotify",       icon: "spotify.jpg",      url: "https://open.spotify.com/artist/6aVIyHMzSIIhYNStHu8fBF" },
     { name: "Instagram",     icon: "instagram.jpg",    url: "https://www.instagram.com/loganxvoss/" },
+    { name: "App Store",     icon: "appstore.png",     url: "https://apps.apple.com/us/developer/logan-voss/id1813258380" },
   ];
 
   const DEV_DAY = new Date(2026, 8, 29, 10, 0, 0); // Sep 29, 2026
@@ -160,7 +156,7 @@
     [
       "Pexels", "Unsplash", "Pixabay", "GitHub",
       "Instagram", "Threads", "X", "YouTube",
-      "Spotify",
+      "Spotify", "App Store",
     ].forEach((name) => p1.appendChild(appEl(SOCIAL_APPS.find((app) => app.name === name))));
 
     // Page 2: square music widget top-left, exact row order per Logan.
@@ -168,23 +164,16 @@
     p2.className = "page";
     p2.appendChild(widgetMusic());
     [
-      "HyperVid", "Anima",
-      "Virtual Snow", "Vibey",
-      "Life", "GenIconz", "Lyric Video", "Champagne",
-      "Notch RGB", "Boltz", "Jetz", "Fluorescent",
-      "Exif Hunter", "Bazoomba", "Library",
+      "Champagne", "Anima",
+      "Vibey", "Virtual Snow",
+      "HyperVid", "Exif Hunter", "Fluorescent", "Bazoomba",
+      "Notch RGB", "Shredder", "Zombies", "Orbital",
+      "Jetz", "GenIconz",
     ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
 
-    // Page 3: the games.
-    const p3 = document.createElement("div");
-    p3.className = "page";
-    [
-      "Orbital", "Shredder", "Zombies", "Slyder",
-    ].forEach((name) => p3.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
-
-    track.append(p1, p2, p3);
-    pageEls = [p1, p2, p3];
-    pageCount = 3;
+    track.append(p1, p2);
+    pageEls = [p1, p2];
+    pageCount = 2;
 
     for (let i = 0; i < pageCount; i++) {
       const d = document.createElement("button");
