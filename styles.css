@@ -353,6 +353,54 @@ html.mobile .wallpaper {
 }
 .flash-overlay.on { opacity: .96; }
 
+/* ————— Coming-soon alert (iOS-style) ————— */
+.soon-alert {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: rgba(24,24,46,.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.soon-alert.show { opacity: 1; pointer-events: auto; }
+.soon-card {
+  width: 67cqw;
+  border-radius: 5.6cqw;
+  background: rgba(255,255,255,.68);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8);
+  backdrop-filter: blur(28px) saturate(1.8);
+  box-shadow: 0 2.4cqh 6cqh rgba(20,12,60,.28);
+  overflow: hidden;
+  text-align: center;
+  transform: scale(1.18);
+  transition: transform .3s var(--spring);
+}
+.soon-alert.show .soon-card { transform: scale(1); }
+.soon-title {
+  padding: 4.6cqh 6cqw 4.2cqh;
+  font-size: 4.2cqw;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+.soon-ok {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-top: 1px solid rgba(60,60,67,.18);
+  background: transparent;
+  padding: 2.7cqh 0;
+  font: inherit;
+  font-size: 4.2cqw;
+  font-weight: 600;
+  color: #007aff;
+  cursor: pointer;
+}
+.soon-ok:active { background: rgba(60,60,67,.1); }
+
 .swipe-zone { text-align: center; padding-bottom: 1.2cqh; margin-top: 2.5cqh; }
 .swipe-hint {
   font-size: 3.7cqw;

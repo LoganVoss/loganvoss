@@ -25,6 +25,11 @@
     { name: "Gen Icon",      icon: "genicon.png",      url: APP_STORE + "genicon-asset-resizer/id6746290386?mt=12" },
     { name: "Notch RGB",     icon: "vossy.png",        url: APP_STORE + "vossy/id6745646180?mt=12" },
     { name: "Jetz",          icon: "jetz.png",         url: APP_STORE + "jetz/id6745764555?mt=12" },
+    // In development — tapping shows an iOS-style "Coming soon" alert
+    { name: "Shredder",      icon: "shredder.png",      comingSoon: true },
+    { name: "VibeSlider",    icon: "vibeslider.png",    comingSoon: true },
+    { name: "Horde Storm",   icon: "finalsurvivor.png", comingSoon: true },
+    { name: "Champagne",     icon: "champagne.png",     comingSoon: true },
   ];
   // Social / profile apps — page 1
   const SOCIAL_APPS = [
@@ -85,12 +90,27 @@
     const a = document.createElement("a");
     a.className = "app";
     a.setAttribute("aria-label", app.name);
-    a.href = app.url;
-    a.target = "_blank";
-    a.rel = "noopener";
+    if (app.comingSoon) {
+      a.href = "#";
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        showSoon();
+      });
+    } else {
+      a.href = app.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+    }
     a.innerHTML = `<span class="app-icon"><img src="assets/icons/${app.icon}" alt="" draggable="false"></span><span class="app-label">${app.name}</span>`;
     return a;
   }
+
+  /* ————— Coming-soon alert (iOS-style) ————— */
+  const soonAlert = $("#soonAlert");
+  function showSoon() { soonAlert.classList.add("show"); }
+  function hideSoon() { soonAlert.classList.remove("show"); }
+  $("#soonOk").addEventListener("click", hideSoon);
+  addEventListener("keydown", (e) => { if (e.key === "Escape") hideSoon(); });
 
   function widgetCalendar() {
     const b = document.createElement("a");
@@ -152,7 +172,8 @@
       "Virtual Snow", "Vibey",
       "Gen Icon", "Life", "Bazoomba", "Lyric Video",
       "Notch RGB", "Exif Hunter", "Jetz", "Orbital",
-      "Boltz", "Library", "HyperVid",
+      "Boltz", "Library", "HyperVid", "Champagne",
+      "Shredder", "Horde Storm", "VibeSlider",
     ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
 
     track.append(p1, p2);
