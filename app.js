@@ -22,13 +22,13 @@
     { name: "Vibey",         icon: "vibey.png",        url: APP_STORE + "vibey-animated-desktop/id6757448418?mt=12" },
     { name: "Exif Hunter",   icon: "exifhunter.png",   url: APP_STORE + "exif-hunter/id6747992699?mt=12" },
     { name: "Virtual Snow",  icon: "virtualsnow.png",  url: APP_STORE + "virtual-snow/id6747272596?mt=12" },
-    { name: "Gen Icon",      icon: "genicon.png",      url: APP_STORE + "genicon-asset-resizer/id6746290386?mt=12" },
+    { name: "GenIconz",      icon: "genicon.png",      url: APP_STORE + "genicon-asset-resizer/id6746290386?mt=12" },
     { name: "Notch RGB",     icon: "vossy.png",        url: APP_STORE + "vossy/id6745646180?mt=12" },
     { name: "Jetz",          icon: "jetz.png",         url: APP_STORE + "jetz/id6745764555?mt=12" },
     // In development — tapping shows an iOS-style "Coming soon" alert
     { name: "Shredder",      icon: "shredder.png",      comingSoon: true },
-    { name: "VibeSlider",    icon: "vibeslider.png",    comingSoon: true },
-    { name: "Horde Storm",   icon: "finalsurvivor.png", comingSoon: true },
+    { name: "Slyder",        icon: "vibeslider.png",    comingSoon: true },
+    { name: "Zombies",       icon: "finalsurvivor.png", comingSoon: true },
     { name: "Champagne",     icon: "champagne.png",     comingSoon: true },
   ];
   // Social / profile apps — page 1
@@ -168,17 +168,23 @@
     p2.className = "page";
     p2.appendChild(widgetMusic());
     [
-      "Fluorescent", "Anima",
+      "HyperVid", "Anima",
       "Virtual Snow", "Vibey",
-      "Gen Icon", "Life", "Bazoomba", "Lyric Video",
-      "Notch RGB", "Exif Hunter", "Jetz", "Orbital",
-      "Boltz", "Library", "HyperVid", "Champagne",
-      "Shredder", "Horde Storm", "VibeSlider",
+      "Life", "GenIconz", "Lyric Video", "Bazoomba",
+      "Exif Hunter", "Jetz", "Champagne", "Notch RGB",
+      "Boltz", "Library", "Fluorescent",
     ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
 
-    track.append(p1, p2);
-    pageEls = [p1, p2];
-    pageCount = 2;
+    // Page 3: the games.
+    const p3 = document.createElement("div");
+    p3.className = "page";
+    [
+      "Orbital", "Shredder", "Zombies", "Slyder",
+    ].forEach((name) => p3.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
+
+    track.append(p1, p2, p3);
+    pageEls = [p1, p2, p3];
+    pageCount = 3;
 
     for (let i = 0; i < pageCount; i++) {
       const d = document.createElement("button");
