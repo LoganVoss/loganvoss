@@ -170,9 +170,9 @@
     [
       "HyperVid", "Anima",
       "Virtual Snow", "Vibey",
-      "Life", "GenIconz", "Lyric Video", "Bazoomba",
-      "Exif Hunter", "Jetz", "Champagne", "Notch RGB",
-      "Boltz", "Library", "Fluorescent",
+      "Life", "GenIconz", "Lyric Video", "Champagne",
+      "Notch RGB", "Boltz", "Jetz", "Fluorescent",
+      "Exif Hunter", "Bazoomba", "Library",
     ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
 
     // Page 3: the games.
