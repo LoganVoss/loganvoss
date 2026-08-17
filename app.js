@@ -8,13 +8,17 @@
 
   /* ————— Data ————— */
   const APP_STORE = "https://apps.apple.com/us/app/";
-  // Logan's own apps — page 2
+  // Logan's own apps — page 2, grouped into folders
   const MY_APPS = [
     { name: "Anima",           icon: "anima.jpg",        url: APP_STORE + "anima-camera/id6751657083" },
     { name: "Bazoomba",      icon: "bazoomba.jpg",     url: APP_STORE + "bazoomba/id6759260189" },
     { name: "HyperVid",      icon: "hypervid.jpg",     url: APP_STORE + "hypervid/id6757205904" },
+    { name: "Boltz",         icon: "boltz.jpg",        url: APP_STORE + "boltz-strobe-art/id6757131249" },
+    { name: "Life",          icon: "lifecalc.jpg",      url: APP_STORE + "life-calculator-self-improve/id6748923209" },
     { name: "Orbital",       icon: "orbital.jpg",    url: APP_STORE + "orbital-pursuit/id6748704830" },
+    { name: "Library",       icon: "library.jpg",      url: APP_STORE + "library-calculator/id6746132040" },
     { name: "Fluorescent",   icon: "fluorescent.png",  url: APP_STORE + "fluorescent/id6781411670?mt=12" },
+    { name: "Lyric Video",   icon: "lyricvideo.png",   url: APP_STORE + "lyric-video/id6761279213?mt=12" },
     { name: "Vibey",         icon: "vibey.png",        url: APP_STORE + "vibey-animated-desktop/id6757448418?mt=12" },
     { name: "Exif Hunter",   icon: "exifhunter.png",   url: APP_STORE + "exif-hunter/id6747992699?mt=12" },
     { name: "Virtual Snow",  icon: "virtualsnow.png",  url: APP_STORE + "virtual-snow/id6747272596?mt=12" },
@@ -23,8 +27,15 @@
     { name: "Jetz",          icon: "jetz.png",         url: APP_STORE + "jetz/id6745764555?mt=12" },
     // In development — tapping shows an iOS-style "Coming soon" alert
     { name: "Shredder",      icon: "shredder.png",      comingSoon: true },
+    { name: "Slyder",        icon: "vibeslider.png",    comingSoon: true },
     { name: "Zombies",       icon: "finalsurvivor.png", comingSoon: true },
     { name: "Champagne",     icon: "champagne.png",     comingSoon: true },
+  ];
+  // Folder grouping per App Store page platforms (games pulled out of iOS)
+  const FOLDERS = [
+    { name: "macOS", apps: ["Fluorescent", "Vibey", "Exif Hunter", "Virtual Snow", "GenIconz", "Notch RGB", "Jetz", "Lyric Video", "Champagne"] },
+    { name: "iOS",   apps: ["Anima", "Bazoomba", "HyperVid", "Boltz", "Life", "Library"] },
+    { name: "Games", apps: ["Orbital", "Shredder", "Zombies", "Slyder"] },
   ];
   // Social / profile apps — page 1
   const SOCIAL_APPS = [
@@ -108,6 +119,40 @@
   $("#soonOk").addEventListener("click", hideSoon);
   addEventListener("keydown", (e) => { if (e.key === "Escape") hideSoon(); });
 
+  /* ————— Folders (iOS-style expand) ————— */
+  const folderView = $("#folderView");
+  const folderCard = $("#folderCard");
+
+  function folderEl(folder) {
+    const apps = folder.apps.map((n) => MY_APPS.find((a) => a.name === n));
+    const b = document.createElement("button");
+    b.className = "app folder";
+    b.setAttribute("aria-label", folder.name + " folder");
+    const minis = apps.slice(0, 9)
+      .map((a) => `<img src="assets/icons/${a.icon}" alt="" draggable="false">`)
+      .join("");
+    b.innerHTML = `<span class="app-icon folder-icon"><span class="folder-grid">${minis}</span></span><span class="app-label">${folder.name}</span>`;
+    b.addEventListener("click", () => openFolder(folder, apps, b));
+    return b;
+  }
+
+  function openFolder(folder, apps, iconEl) {
+    $("#folderName").textContent = folder.name;
+    const box = $("#folderApps");
+    box.innerHTML = "";
+    apps.forEach((a) => box.appendChild(appEl(a)));
+    // scale out of the folder icon's position, like iOS
+    const sr = screen.getBoundingClientRect();
+    const ir = iconEl.getBoundingClientRect();
+    const ox = ((ir.left + ir.width / 2 - sr.left) - folderCard.offsetLeft) / folderCard.offsetWidth * 100;
+    const oy = ((ir.top + ir.height / 2 - sr.top) - folderCard.offsetTop) / folderCard.offsetHeight * 100;
+    folderCard.style.transformOrigin = `${ox}% ${oy}%`;
+    folderView.classList.add("open");
+  }
+  function closeFolder() { folderView.classList.remove("open"); }
+  folderView.addEventListener("click", (e) => { if (e.target === folderView) closeFolder(); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape") closeFolder(); });
+
   function widgetCalendar() {
     const b = document.createElement("a");
     b.className = "widget w4 wg-cal";
@@ -159,17 +204,11 @@
       "Spotify", "App Store",
     ].forEach((name) => p1.appendChild(appEl(SOCIAL_APPS.find((app) => app.name === name))));
 
-    // Page 2: square music widget top-left, exact row order per Logan.
+    // Page 2: square music widget top-left, then the three folders.
     const p2 = document.createElement("div");
     p2.className = "page";
     p2.appendChild(widgetMusic());
-    [
-      "Champagne", "Anima",
-      "Vibey", "Virtual Snow",
-      "HyperVid", "Exif Hunter", "Fluorescent", "Bazoomba",
-      "Notch RGB", "Shredder", "Zombies", "Orbital",
-      "Jetz", "GenIconz",
-    ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
+    FOLDERS.forEach((f) => p2.appendChild(folderEl(f)));
 
     track.append(p1, p2);
     pageEls = [p1, p2];
