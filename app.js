@@ -24,9 +24,8 @@
     { name: "GenIconz",      icon: "genicon.png",      url: APP_STORE + "genicon-asset-resizer/id6746290386?mt=12" },
     { name: "Notch RGB",     icon: "vossy.png",        url: APP_STORE + "vossy/id6745646180?mt=12" },
     { name: "Jetz",          icon: "jetz.png",         url: APP_STORE + "jetz/id6745764555?mt=12" },
-    { name: "Zombies",       icon: "finalsurvivor.png", url: APP_STORE + "zombies-final-survivor/id6801930502" },
-    // In development — tapping shows an iOS-style "Coming soon" alert
-    { name: "Champagne",     icon: "champagne.png",     comingSoon: true },
+    { name: "Dead",          icon: "finalsurvivor.png", url: APP_STORE + "zombies-final-survivor/id6801930502" },
+    { name: "Champagne",     icon: "champagne.png",     url: APP_STORE + "champagne-mastering-studio/id6758863788?mt=12" },
   ];
   // Social / profile apps — page 1
   const SOCIAL_APPS = [
