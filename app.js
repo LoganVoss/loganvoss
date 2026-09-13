@@ -24,7 +24,7 @@
     { name: "GenIconz",      icon: "genicon.png",      url: APP_STORE + "genicon-asset-resizer/id6746290386?mt=12" },
     { name: "Notch RGB",     icon: "vossy.png",        url: APP_STORE + "vossy/id6745646180?mt=12" },
     { name: "Jetz",          icon: "jetz.png",         url: APP_STORE + "jetz/id6745764555?mt=12" },
-    { name: "Zombies",       icon: "finalsurvivor.png", url: APP_STORE + "zombies-final-survivor/id6801930502" },
+    { name: "Dead",          icon: "finalsurvivor.png", url: APP_STORE + "zombies-final-survivor/id6801930502" },
     { name: "Champagne",     icon: "champagne.png",     url: APP_STORE + "champagne-mastering-studio/id6758863788?mt=12" },
     // In development — tapping shows an iOS-style "Coming soon" alert
     { name: "Gravity Goo",   icon: "gravitygoo.jpg",    comingSoon: true },
@@ -163,17 +163,17 @@
       "DeltaX", "Spotify", "App Store",
     ].forEach((name) => p1.appendChild(appEl(SOCIAL_APPS.find((app) => app.name === name))));
 
-    // Page 2: square music widget top-left, then all apps in a fixed order
-    // (shuffled once on Sep 13, 2026, then frozen).
+    // Page 2: square music widget top-left, exact row order per Logan.
     const p2 = document.createElement("div");
     p2.className = "page";
     p2.appendChild(widgetMusic());
     [
-      "Gravity Goo", "HyperVid", "Jetz", "Lyric Video",
-      "Virtual Snow", "Exif Hunter", "Anima", "Notch RGB",
-      "Bazoomba", "Orbital", "Library", "Fluorescent",
-      "Life", "Vibey", "GenIconz", "Champagne",
-      "Zombies",
+      "Vibey", "Anima",
+      "HyperVid", "Jetz",
+      "Virtual Snow", "Bazoomba", "Exif Hunter", "Notch RGB",
+      "Orbital", "Library", "Fluorescent", "Life",
+      "GenIconz", "Champagne", "Lyric Video", "Dead",
+      "Gravity Goo",
     ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
 
     track.append(p1, p2);
