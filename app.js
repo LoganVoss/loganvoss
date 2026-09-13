@@ -112,14 +112,6 @@
   $("#soonOk").addEventListener("click", hideSoon);
   addEventListener("keydown", (e) => { if (e.key === "Escape") hideSoon(); });
 
-  function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-
   function widgetCalendar() {
     const b = document.createElement("a");
     b.className = "widget w4 wg-cal";
@@ -171,11 +163,18 @@
       "DeltaX", "Spotify", "App Store",
     ].forEach((name) => p1.appendChild(appEl(SOCIAL_APPS.find((app) => app.name === name))));
 
-    // Page 2: square music widget top-left, then all apps shuffled.
+    // Page 2: square music widget top-left, then all apps in a fixed order
+    // (shuffled once on Sep 13, 2026, then frozen).
     const p2 = document.createElement("div");
     p2.className = "page";
     p2.appendChild(widgetMusic());
-    shuffle([...MY_APPS]).forEach((app) => p2.appendChild(appEl(app)));
+    [
+      "Gravity Goo", "HyperVid", "Jetz", "Lyric Video",
+      "Virtual Snow", "Exif Hunter", "Anima", "Notch RGB",
+      "Bazoomba", "Orbital", "Library", "Fluorescent",
+      "Life", "Vibey", "GenIconz", "Champagne",
+      "Zombies",
+    ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
 
     track.append(p1, p2);
     pageEls = [p1, p2];
