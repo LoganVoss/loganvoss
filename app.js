@@ -24,8 +24,10 @@
     { name: "GenIconz",      icon: "genicon.png",      url: APP_STORE + "genicon-asset-resizer/id6746290386?mt=12" },
     { name: "Notch RGB",     icon: "vossy.png",        url: APP_STORE + "vossy/id6745646180?mt=12" },
     { name: "Jetz",          icon: "jetz.png",         url: APP_STORE + "jetz/id6745764555?mt=12" },
-    { name: "Dead",          icon: "finalsurvivor.png", url: APP_STORE + "zombies-final-survivor/id6801930502" },
+    { name: "Zombies",       icon: "finalsurvivor.png", url: APP_STORE + "zombies-final-survivor/id6801930502" },
     { name: "Champagne",     icon: "champagne.png",     url: APP_STORE + "champagne-mastering-studio/id6758863788?mt=12" },
+    // In development — tapping shows an iOS-style "Coming soon" alert
+    { name: "Gravity Goo",   icon: "gravitygoo.jpg",    comingSoon: true },
   ];
   // Social / profile apps — page 1
   const SOCIAL_APPS = [
@@ -37,6 +39,7 @@
     { name: "Threads",       icon: "threads.jpg",      url: "https://www.threads.com/@loganxvoss" },
     { name: "YouTube",       icon: "youtube.jpg",      url: "https://www.youtube.com/@DeltaXMusic" },
     { name: "Spotify",       icon: "spotify.jpg",      url: "https://open.spotify.com/artist/6aVIyHMzSIIhYNStHu8fBF" },
+    { name: "DeltaX",        icon: "deltax.png",       url: "https://www.deltaxmusic.com" },
     { name: "Instagram",     icon: "instagram.jpg",    url: "https://www.instagram.com/loganxvoss/" },
     { name: "App Store",     icon: "appstore.png",     url: "https://apps.apple.com/us/developer/logan-voss/id1813258380" },
   ];
@@ -165,7 +168,7 @@
     [
       "Pexels", "Unsplash", "Pixabay", "GitHub",
       "Instagram", "Threads", "X", "YouTube",
-      "Spotify", "App Store",
+      "DeltaX", "Spotify", "App Store",
     ].forEach((name) => p1.appendChild(appEl(SOCIAL_APPS.find((app) => app.name === name))));
 
     // Page 2: square music widget top-left, then all apps shuffled.
