@@ -26,8 +26,7 @@
     { name: "Jetz",          icon: "jetz.png",         url: APP_STORE + "jetz/id6745764555?mt=12" },
     { name: "Dead",          icon: "finalsurvivor.png", url: APP_STORE + "zombies-final-survivor/id6801930502" },
     { name: "Champagne",     icon: "champagne.png",     url: APP_STORE + "champagne-mastering-studio/id6758863788?mt=12" },
-    // In development — tapping shows an iOS-style "Coming soon" alert
-    { name: "Gravity Goo",   icon: "gravitygoo.jpg",    comingSoon: true },
+    { name: "Gravity Goo",   icon: "gravitygoo.jpg",    url: APP_STORE + "gravity-goo/id6808861371" },
   ];
   // Social / profile apps — page 1
   const SOCIAL_APPS = [
