@@ -59,7 +59,7 @@ body {
   height: 97.36%;
   z-index: 1;
   overflow: hidden;
-  background: #dfe9fa;
+  background: #071400;
   container-type: size;
   border-radius: 16.4% / 7.7%;
 }
@@ -70,8 +70,8 @@ html.mobile body {
   height: 100%;
   min-height: 100%;
   overflow: visible;
-  background-color: #c8d9f6;
-  background-image: url("assets/wallpaper-hd.jpg");
+  background-color: #071400;
+  background-image: url("assets/wallpaper-hd.jpg?v=2");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -118,14 +118,14 @@ html.mobile .wallpaper {
   display: block;
   position: absolute;
   inset: 0;
-  background: url("assets/wallpaper-hd.jpg") center / cover no-repeat;
+  background: url("assets/wallpaper-hd.jpg?v=2") center / cover no-repeat;
 }
 
 /* ————— Wallpaper (desktop, inside the bezel) ————— */
 .wallpaper {
   position: absolute;
   inset: 0;
-  background: url("assets/wallpaper-hd.jpg") center / cover no-repeat #dfe9fa;
+  background: url("assets/wallpaper-hd.jpg?v=2") center / cover no-repeat #071400;
 }
 
 /* ————— Dynamic Island ————— */
@@ -156,12 +156,12 @@ html.mobile .wallpaper {
 .sb-left, .sb-right { display: flex; align-items: center; gap: 2.2cqw; }
 .sb-time { font-size: 4.1cqw; font-weight: 600; letter-spacing: .02em; }
 .carrier-name { font-size: 3.9cqw; font-weight: 500; }
-.statusbar { color: #16233f; }
-.sb-ic { width: 5.4cqw; height: 3.4cqw; fill: #16233f; }
+.statusbar { color: #fff; }
+.sb-ic { width: 5.4cqw; height: 3.4cqw; fill: #fff; }
 .sb-ic.wifi { width: 4.6cqw; }
 .sb-ic.batt { width: 6.6cqw; }
-.sb-ic [stroke-width] { stroke: #16233f; }
-.sb-ic path[stroke-width], .sb-ic rect[stroke-width] { stroke: #16233f; }
+.sb-ic [stroke-width] { stroke: #fff; }
+.sb-ic path[stroke-width], .sb-ic rect[stroke-width] { stroke: #fff; }
 
 /* ————— Boot ————— */
 .boot {
@@ -238,9 +238,9 @@ html.mobile .wallpaper {
 .lock-date {
   font-size: 5.35cqw;
   font-weight: 650;
-  color: #16233f;
+  color: #fff;
   letter-spacing: -.015em;
-  text-shadow: 0 1px 0 rgba(255,255,255,.52), 0 .45cqh 1.5cqh rgba(73,91,139,.16);
+  text-shadow: 0 1px 8px rgba(0,0,0,.45);
   opacity: 0;
   transform: translateY(-12px);
   transition: opacity .7s ease .1s, transform .7s var(--ease-out) .1s;
@@ -248,10 +248,10 @@ html.mobile .wallpaper {
 .lock-time {
   font-size: 21.5cqw;
   font-weight: 720;
-  color: #16233f;
+  color: #fff;
   letter-spacing: -.045em;
   line-height: 1;
-  text-shadow: 0 1px 0 rgba(255,255,255,.56), 0 .6cqh 2cqh rgba(73,91,139,.2);
+  text-shadow: 0 2px 14px rgba(0,0,0,.4);
   font-variant-numeric: tabular-nums;
   opacity: 0;
   transform: translateY(-14px);
@@ -405,7 +405,7 @@ html.mobile .wallpaper {
 .swipe-hint {
   font-size: 3.7cqw;
   font-weight: 600;
-  color: #16233f;
+  color: #fff;
   opacity: .75;
   margin-bottom: 1.6cqh;
   animation: hintPulse 2.6s ease-in-out infinite;
@@ -417,7 +417,7 @@ html.mobile .wallpaper {
   height: .62cqh;
   min-height: 3px;
   border-radius: 1cqw;
-  background: #16233f;
+  background: #fff;
   margin: 0 auto;
 }
 
@@ -486,7 +486,8 @@ html.mobile .wallpaper {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #16233f;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,.55);
 }
 
 /* entrance animation */
@@ -618,13 +619,13 @@ html.mobile .wallpaper {
   width: 1.9cqw;
   height: 1.9cqw;
   border-radius: 50%;
-  background: rgba(22,35,63,.28);
+  background: rgba(255,255,255,.38);
   border: 0;
   cursor: pointer;
   padding: 0;
   transition: background .3s ease, transform .3s ease;
 }
-.dot.active { background: #16233f; transform: scale(1.12); }
+.dot.active { background: #fff; transform: scale(1.12); }
 
 /* dock */
 .dock {
