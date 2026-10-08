@@ -71,7 +71,7 @@ html.mobile body {
   min-height: 100%;
   overflow: visible;
   background-color: #071400;
-  background-image: url("assets/wallpaper-hd.jpg?v=3");
+  background-image: url("assets/wallpaper-hd.jpg?v=4");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -118,14 +118,14 @@ html.mobile .wallpaper {
   display: block;
   position: absolute;
   inset: 0;
-  background: url("assets/wallpaper-hd.jpg?v=3") center / cover no-repeat;
+  background: url("assets/wallpaper-hd.jpg?v=4") center / cover no-repeat;
 }
 
 /* ————— Wallpaper (desktop, inside the bezel) ————— */
 .wallpaper {
   position: absolute;
   inset: 0;
-  background: url("assets/wallpaper-hd.jpg?v=3") center / cover no-repeat #071400;
+  background: url("assets/wallpaper-hd.jpg?v=4") center / cover no-repeat #071400;
 }
 
 /* ————— Dynamic Island ————— */
