@@ -43,9 +43,6 @@
     { name: "App Store",     icon: "appstore.png",     url: "https://apps.apple.com/us/developer/logan-voss/id1813258380" },
   ];
 
-  const DEV_DAY = new Date(2026, 8, 29, 10, 0, 0); // Sep 29, 2026
-  const DEV_DAY_URL = "https://devday.openai.com";
-
   /* ————— Mobile detection ————— */
   const isMobile =
     (matchMedia("(pointer: coarse)").matches && innerWidth < 1024) ||
@@ -69,12 +66,6 @@
     $("#sbTime").textContent = fmtTime(d);
     $("#lockTime").textContent = fmtTime(d);
     $("#lockDate").textContent = fmtDate(d);
-    const eventDay = new Date(DEV_DAY.getFullYear(), DEV_DAY.getMonth(), DEV_DAY.getDate());
-    const today = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    const days = Math.ceil((eventDay - today) / 864e5);
-    const label = days > 0 ? "in " + days + "d" : days === 0 ? "today" : "Sep 29";
-    const cn = $("#calCountNotif"); if (cn) cn.textContent = label;
-    const wp = $("#wgCalPill"); if (wp) wp.textContent = days > 0 ? days + " days away" : days === 0 ? "Today!" : "Sep 29, 2026";
   }
 
   /* ————— Build home pages ————— */
@@ -111,28 +102,6 @@
   $("#soonOk").addEventListener("click", hideSoon);
   addEventListener("keydown", (e) => { if (e.key === "Escape") hideSoon(); });
 
-  function widgetCalendar() {
-    const b = document.createElement("a");
-    b.className = "widget w4 wg-cal";
-    b.href = DEV_DAY_URL;
-    b.target = "_blank";
-    b.rel = "noopener";
-    b.setAttribute("aria-label", "Reminder — OpenAI DevDay, September 29, San Francisco");
-    b.innerHTML = `
-      <span class="wg-cal-badge">
-        <span class="wg-cal-badge-mon">SEP</span>
-        <span class="wg-cal-badge-day">29</span>
-      </span>
-      <span class="wg-cal-right">
-        <span class="wg-cal-kicker">Reminder</span>
-        <span class="wg-cal-name" style="display:block">OpenAI DevDay</span>
-        <span class="wg-cal-meta">Tuesday</span>
-        <span class="wg-cal-meta">San Francisco, CA</span>
-      </span>
-      <span class="wg-cal-pill" id="wgCalPill">48 days away</span>`;
-    return b;
-  }
-
   function widgetMusic() {
     const a = document.createElement("a");
     a.className = "widget w2 wg-music";
@@ -152,10 +121,9 @@
   }
 
   function buildHome() {
-    // Page 1: reminder, then Logan's requested social layout.
+    // Page 1: Logan's requested social layout.
     const p1 = document.createElement("div");
     p1.className = "page";
-    p1.appendChild(widgetCalendar());
     [
       "Pexels", "Unsplash", "Pixabay", "GitHub",
       "Instagram", "Threads", "X", "YouTube",
@@ -288,7 +256,6 @@
     const lock = $("#lock");
     lock.classList.add("show");
     setTimeout(() => $("#notifMsg").classList.add("in"), 850);
-    setTimeout(() => $("#notifCal").classList.add("in"), 2100);
     setTimeout(() => boot.remove(), 900);
   }
 
@@ -334,10 +301,6 @@
 
   $("#swipeHint").addEventListener("click", () => !unlocked && unlock());
   $("#notifMsg").addEventListener("click", () => !unlocked && unlock());
-  $("#notifCal").addEventListener("click", () => {
-    window.open(DEV_DAY_URL, "_blank", "noopener");
-    if (!unlocked) unlock();
-  });
 
   function unlock() {
     if (unlocked) return;
