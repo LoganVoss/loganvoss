@@ -136,16 +136,16 @@
   function widgetMusic() {
     const a = document.createElement("a");
     a.className = "widget w2 wg-music";
-    a.href = "https://music.apple.com/us/album/weightless/6799590827";
+    a.href = "https://music.apple.com/us/album/serendipity-synchronicity/6822006321";
     a.target = "_blank";
     a.rel = "noopener";
-    a.setAttribute("aria-label", "DeltaX on Apple Music");
+    a.setAttribute("aria-label", "Serendipity & Synchronicity by DeltaX on Apple Music");
     a.innerHTML = `
-      <img class="wg-m-cover" src="assets/weightless.jpg" alt="" draggable="false">
+      <img class="wg-m-cover" src="assets/serendipity-synchronicity.jpg" alt="" draggable="false">
       <span class="wg-m-shade"></span>
       <span class="wg-m-copy">
         <span class="wg-m-label">Now Playing</span>
-        <span class="wg-m-name">Weightless</span>
+        <span class="wg-m-name">Serendipity &amp; Synchronicity</span>
         <span class="wg-m-sub">DeltaX</span>
       </span>`;
     return a;
