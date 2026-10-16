@@ -12,6 +12,7 @@
   const MY_APPS = [
     { name: "Anima",           icon: "anima.jpg",        url: APP_STORE + "anima-camera/id6751657083" },
     { name: "Bazoomba",      icon: "bazoomba.jpg",     url: APP_STORE + "bazoomba/id6759260189" },
+    { name: "Boltz",         icon: "boltz.jpg",        url: APP_STORE + "boltz-strobe-art/id6757131249" },
     { name: "HyperVid",      icon: "hypervid.jpg",     url: APP_STORE + "hypervid/id6757205904" },
     { name: "Life",          icon: "lifecalc.jpg",      url: APP_STORE + "life-calculator-self-improve/id6748923209" },
     { name: "Orbital",       icon: "orbital.jpg",    url: APP_STORE + "orbital-pursuit/id6748704830" },
