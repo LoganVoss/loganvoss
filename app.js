@@ -112,8 +112,8 @@
     a.innerHTML = `
       <img class="wg-m-cover" src="assets/serendipity-synchronicity.jpg" alt="" draggable="false">
       <span class="wg-m-shade"></span>
+      <span class="wg-m-label">Now Playing</span>
       <span class="wg-m-copy">
-        <span class="wg-m-label">Now Playing</span>
         <span class="wg-m-name">Serendipity &amp; Synchronicity</span>
         <span class="wg-m-sub">DeltaX</span>
       </span>`;
@@ -121,7 +121,7 @@
   }
 
   function buildHome() {
-    // Page 1: Logan's requested social layout.
+    // Page 1: fixed social layout, then the music widget.
     const p1 = document.createElement("div");
     p1.className = "page";
     [
@@ -129,19 +129,18 @@
       "Instagram", "Threads", "X", "YouTube",
       "DeltaX", "Spotify", "App Store",
     ].forEach((name) => p1.appendChild(appEl(SOCIAL_APPS.find((app) => app.name === name))));
+    p1.appendChild(widgetMusic());
 
-    // Page 2: square music widget top-left, exact row order per Logan.
+    // Page 2: shuffle the apps each load, keeping Anima in the top-right slot.
     const p2 = document.createElement("div");
     p2.className = "page";
-    p2.appendChild(widgetMusic());
-    [
-      "Vibey", "Anima",
-      "HyperVid", "Jetz",
-      "Virtual Snow", "Bazoomba", "Exif Hunter", "Notch RGB",
-      "Orbital", "Library", "Fluorescent", "Life",
-      "GenIconz", "Champagne", "Lyric Video", "Dead",
-      "Gravity Goo",
-    ].forEach((name) => p2.appendChild(appEl(MY_APPS.find((app) => app.name === name))));
+    const apps = MY_APPS.filter((app) => app.name !== "Anima");
+    for (let i = apps.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [apps[i], apps[j]] = [apps[j], apps[i]];
+    }
+    apps.splice(3, 0, MY_APPS.find((app) => app.name === "Anima"));
+    apps.forEach((app) => p2.appendChild(appEl(app)));
 
     track.append(p1, p2);
     pageEls = [p1, p2];

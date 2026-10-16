@@ -516,7 +516,7 @@ html.mobile .wallpaper {
 .widget:active { transform: scale(.95); filter: brightness(.94); }
 .widget.w2 { grid-column: span 2; grid-row: span 2; }
 
-/* square album-art music widget (page 2) */
+/* square album-art music widget (page 1) */
 .wg-music {
   position: relative;
   align-self: start;
@@ -536,7 +536,7 @@ html.mobile .wallpaper {
 .wg-m-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(10,24,42,.03) 35%, rgba(7,20,38,.76) 100%);
+  background: linear-gradient(to bottom, rgba(7,20,38,.4) 0%, rgba(10,24,42,.03) 35%, rgba(7,20,38,.76) 100%);
 }
 .wg-m-copy {
   position: absolute;
@@ -547,7 +547,18 @@ html.mobile .wallpaper {
   flex-direction: column;
   text-shadow: 0 1px 5px rgba(0,0,0,.42);
 }
-.wg-music .wg-m-label { font-size: 2.45cqw; font-weight: 650; letter-spacing: .07em; opacity: .88; text-transform: uppercase; }
+.wg-music .wg-m-label {
+  position: absolute;
+  top: 2.6cqw;
+  left: 3.4cqw;
+  right: 3.4cqw;
+  font-size: 2.45cqw;
+  font-weight: 650;
+  letter-spacing: .07em;
+  opacity: .88;
+  text-transform: uppercase;
+  text-shadow: 0 1px 5px rgba(0,0,0,.42);
+}
 .wg-music .wg-m-name { font-size: 4.25cqw; font-weight: 750; line-height: 1.08; margin-top: .3cqh; }
 .wg-music .wg-m-sub { font-size: 2.9cqw; font-weight: 550; opacity: .9; margin-top: .15cqh; }
 
